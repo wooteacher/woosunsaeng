@@ -1,10 +1,11 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { updateConsultation } from "./actions";
+import { getDashboardData } from "@/lib/dashboard";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
+import StatCard from "@/components/ui/StatCard";
 
 const statuses = ["접수", "상담중", "가입완료", "설치완료", "지급완료", "완료"];
 
@@ -23,16 +24,7 @@ export default async function AdminPage({
   const params = await searchParams;
   const q = params?.q?.trim() ?? "";
 
-  let query = supabaseAdmin
-    .from("consultations")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (q) {
-    query = query.or(`name.ilike.%${q}%,phone.ilike.%${q}%,service.ilike.%${q}%`);
-  }
-
-  const { data } = await query;
+  const { list, stats } = await getDashboardData(q);
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">
@@ -40,8 +32,15 @@ export default async function AdminPage({
         <div>
           <h1 className="text-4xl font-black text-gray-950">우선생 CRM</h1>
           <p className="mt-2 font-bold text-gray-600">
-            접수된 견적 요청을 관리합니다.
+            상담 접수와 진행 상태를 관리합니다.
           </p>
+        </div>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-4">
+          <StatCard title="오늘 문의" value={stats.today} icon="📞" />
+          <StatCard title="상담중" value={stats.consulting} icon="🟢" />
+          <StatCard title="설치완료" value={stats.installed} icon="🛠️" />
+          <StatCard title="지급완료" value={stats.paid} icon="💰" />
         </div>
 
         <Card className="mt-8 p-5">
@@ -52,6 +51,7 @@ export default async function AdminPage({
               placeholder="이름, 연락처, 서비스로 검색"
               className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 font-bold outline-none focus:border-green-500"
             />
+
             <Button type="submit" className="md:w-32">
               검색
             </Button>
@@ -59,7 +59,7 @@ export default async function AdminPage({
         </Card>
 
         <div className="mt-6 space-y-5">
-          {data?.map((item) => (
+          {list.map((item) => (
             <Card key={item.id} className="p-6">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
@@ -116,11 +116,9 @@ export default async function AdminPage({
             </Card>
           ))}
 
-          {data?.length === 0 && (
+          {list.length === 0 && (
             <Card className="p-10 text-center">
-              <p className="font-bold text-gray-500">
-                검색 결과가 없습니다.
-              </p>
+              <p className="font-bold text-gray-500">검색 결과가 없습니다.</p>
             </Card>
           )}
         </div>
