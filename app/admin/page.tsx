@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { updateConsultationStatus } from "./actions";
+import { updateConsultation } from "./actions";
 
 const statuses = [
   "접수",
@@ -50,25 +50,33 @@ export default async function AdminPage() {
                   </a>
                 </div>
 
-                <form action={updateConsultationStatus} className="flex gap-2">
-                  <input type="hidden" name="id" value={item.id} />
+                <form action={updateConsultation} className="mt-5 space-y-4">
+  <input type="hidden" name="id" value={item.id} />
 
-                  <select
-                    name="status"
-                    defaultValue={item.status ?? "접수"}
-                    className="rounded-xl border border-gray-200 px-4 py-3 font-bold"
-                  >
-                    {statuses.map((status) => (
-                      <option key={status} value={status}>
-                        {status}
-                      </option>
-                    ))}
-                  </select>
+  <select
+    name="status"
+    defaultValue={item.status ?? "접수"}
+    className="rounded-xl border border-gray-200 px-4 py-3 font-bold"
+  >
+    {statuses.map((status) => (
+      <option key={status} value={status}>
+        {status}
+      </option>
+    ))}
+  </select>
 
-                  <button className="rounded-xl bg-green-600 px-5 py-3 font-black text-white">
-                    저장
-                  </button>
-                </form>
+  <textarea
+    name="memo"
+    defaultValue={item.memo ?? ""}
+    placeholder="상담 메모를 입력하세요. 예: LG 희망, 7월 10일 설치 예정"
+    className="w-full rounded-xl border border-gray-200 p-4 font-bold"
+    rows={3}
+  />
+
+  <button className="rounded-xl bg-green-600 px-5 py-3 font-black text-white">
+    저장
+  </button>
+</form>
               </div>
 
               <div className="mt-5 grid gap-3 text-sm font-bold text-gray-600 md:grid-cols-3">

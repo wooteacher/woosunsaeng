@@ -1,10 +1,16 @@
 export const SITE = {
   brand: "우선생",
+  name: "우선생",
   slogan: "우리가 선택한 생활서비스",
 
   phone: "032-422-8010",
+  phoneHref: "tel:0324228010",
 
   kakaoUrl: "#",
 
   rentalUrl: "https://woosoo.vip-rental.com/categ/1057",
+  rentalMallUrl: "https://woosoo.vip-rental.com/categ/1057",
+
+  consultationStatus: "현재 상담 가능",
+  averageTime: "3분",
 };
