@@ -1,6 +1,25 @@
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { updateConsultationStatus } from "./actions";
+
+const statuses = [
+  "접수",
+  "상담중",
+  "가입완료",
+  "설치완료",
+  "지급완료",
+  "완료",
+];
 
 export default async function AdminPage() {
+      const cookieStore = await cookies();
+  const isAdmin = cookieStore.get("admin-auth")?.value === "true";
+
+  if (!isAdmin) {
+    redirect("/admin/login");
+  }
   const { data } = await supabaseAdmin
     .from("consultations")
     .select("*")
@@ -11,7 +30,7 @@ export default async function AdminPage() {
       <div className="mx-auto max-w-5xl">
         <h1 className="text-4xl font-black">우선생 관리자</h1>
         <p className="mt-2 font-bold text-gray-600">
-          접수된 견적 요청을 확인합니다.
+          접수된 견적 요청을 관리합니다.
         </p>
 
         <div className="mt-8 space-y-4">
@@ -20,21 +39,36 @@ export default async function AdminPage() {
               key={item.id}
               className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100"
             >
-              <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
                   <h2 className="text-2xl font-black">{item.name}</h2>
                   <a
                     href={`tel:${item.phone}`}
                     className="mt-1 block text-lg font-bold text-green-600"
-                    
                   >
                     {item.phone}
                   </a>
                 </div>
 
-                <span className="rounded-full bg-green-100 px-4 py-2 font-black text-green-700">
-                  {item.status ?? "접수"}
-                </span>
+                <form action={updateConsultationStatus} className="flex gap-2">
+                  <input type="hidden" name="id" value={item.id} />
+
+                  <select
+                    name="status"
+                    defaultValue={item.status ?? "접수"}
+                    className="rounded-xl border border-gray-200 px-4 py-3 font-bold"
+                  >
+                    {statuses.map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+
+                  <button className="rounded-xl bg-green-600 px-5 py-3 font-black text-white">
+                    저장
+                  </button>
+                </form>
               </div>
 
               <div className="mt-5 grid gap-3 text-sm font-bold text-gray-600 md:grid-cols-3">
@@ -47,12 +81,6 @@ export default async function AdminPage() {
               </div>
             </div>
           ))}
-
-          {data?.length === 0 && (
-            <div className="rounded-2xl bg-white p-10 text-center font-bold text-gray-500">
-              아직 접수된 문의가 없습니다.
-            </div>
-          )}
         </div>
       </div>
     </main>
