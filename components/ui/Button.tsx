@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 
-type ButtonProps = {
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
   href?: string;
-  type?: "button" | "submit";
   variant?: "primary" | "secondary" | "outline";
   className?: string;
 };
@@ -24,6 +23,7 @@ export default function Button({
   type = "button",
   variant = "primary",
   className = "",
+  ...props
 }: ButtonProps) {
   const base =
     "inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-4 font-black transition";
@@ -39,7 +39,7 @@ export default function Button({
   }
 
   return (
-    <button type={type} className={finalClass}>
+    <button type={type} className={finalClass} {...props}>
       {children}
     </button>
   );
