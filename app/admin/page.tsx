@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { updateConsultation } from "./actions";
@@ -7,7 +8,22 @@ import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import StatCard from "@/components/ui/StatCard";
 
-const statuses = ["접수", "상담중", "가입완료", "설치완료", "지급완료", "완료"];
+const statuses = [
+  "신규접수",
+  "담당배정",
+  "상담중",
+  "부재",
+  "재통화 예정",
+  "고객검토중",
+  "보류",
+  "취소",
+  "상품확정",
+  "통신사 접수",
+  "설치일 확정",
+  "설치완료",
+  "지급완료",
+  "완료",
+];
 
 export default async function AdminPage({
   searchParams,
@@ -75,7 +91,7 @@ export default async function AdminPage({
                   </a>
                 </div>
 
-                <Badge>{item.status ?? "접수"}</Badge>
+                <Badge>{item.status ?? "신규접수"}</Badge>
               </div>
 
               <div className="mt-5 grid gap-3 text-sm font-bold text-gray-600 md:grid-cols-3">
@@ -91,7 +107,7 @@ export default async function AdminPage({
 
                 <select
                   name="status"
-                  defaultValue={item.status ?? "접수"}
+                  defaultValue={item.status ?? "신규접수"}
                   className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 font-bold outline-none focus:border-green-500 md:w-auto"
                 >
                   {statuses.map((status) => (
@@ -109,9 +125,18 @@ export default async function AdminPage({
                   rows={3}
                 />
 
-                <Button type="submit" className="w-full md:w-auto">
-                  저장
-                </Button>
+                <div className="flex flex-col gap-3 md:flex-row">
+                  <Button type="submit" className="w-full md:w-auto">
+                    저장
+                  </Button>
+
+                  <Link
+                    href={`/admin/consultations/${item.id}`}
+                    className="inline-flex w-full items-center justify-center rounded-2xl bg-gray-900 px-5 py-4 font-black text-white transition hover:bg-black md:w-auto"
+                  >
+                    상세보기
+                  </Link>
+                </div>
               </form>
             </Card>
           ))}

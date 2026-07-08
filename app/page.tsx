@@ -6,14 +6,17 @@ import Estimate from "@/components/home/Estimate";
 import Footer from "@/components/layout/Footer";
 import MobileBottomBar from "@/components/common/MobileBottomBar";
 import FloatingContact from "@/components/common/FloatingContact";
+import FeaturedProducts from "@/components/home/FeaturedProducts";
 
 export default function Home() {
   return (
+    
     <>
       <Header />
 
       <main>
         <Hero />
+        <FeaturedProducts />
         <ServiceCards />
         <WhyUs />
         <Estimate />
