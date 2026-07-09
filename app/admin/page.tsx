@@ -81,7 +81,16 @@ export default async function AdminPage({
         </div>
 
         <div className="mt-8">
-          <DashboardFunnel data={kpi} />
+          <DashboardFunnel
+  data={{
+    newCount: kpi.newCount,
+    consultingCount: kpi.consultingCount,
+    confirmedCount: kpi.confirmedCount,
+    installConfirmedCount: kpi.installConfirmedCount,
+    installedCount: kpi.installedCount,
+    paidCount: kpi.paidCount,
+  }}
+/>
         </div>
 
         <Card className="mt-8 p-5">
