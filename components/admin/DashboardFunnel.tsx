@@ -10,7 +10,7 @@ const steps = [
 export default function DashboardFunnel({
   data,
 }: {
-  data: Record<string, number>;
+  data: Record<string, number | string>;
 }) {
   return (
     <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
