@@ -40,7 +40,10 @@ export default async function AdminPage({
   const params = await searchParams;
   const q = params?.q?.trim() ?? "";
 
-  const { list, stats } = await getDashboardData(q);
+  const role = cookieStore.get("staff-role")?.value ?? "super_admin";
+  const staffId = cookieStore.get("staff-id")?.value ?? "";
+
+  const { list, stats } = await getDashboardData(q, role, staffId);
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">

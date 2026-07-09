@@ -1,10 +1,14 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-export async function getDashboardData(q = "") {
+export async function getDashboardData(q = "", role = "super_admin", staffId = "") {
   let query = supabaseAdmin
     .from("consultations")
     .select("*, staff_members(name, role)")
     .order("created_at", { ascending: false });
+
+  if (role === "staff" && staffId) {
+    query = query.eq("assigned_to", staffId);
+  }
 
   if (q) {
     query = query.or(`name.ilike.%${q}%,phone.ilike.%${q}%,service.ilike.%${q}%`);
@@ -26,7 +30,6 @@ export async function getDashboardData(q = "") {
             timeZone: "Asia/Seoul",
           }) === today
       ).length,
-
       unassigned: list.filter((item) => !item.assigned_to).length,
       consulting: list.filter((item) => item.status === "상담중").length,
       callback: list.filter((item) => item.status === "재통화 예정").length,

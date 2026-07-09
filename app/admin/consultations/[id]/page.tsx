@@ -55,7 +55,12 @@ export default async function ConsultationDetailPage({
     .eq("id", id)
     .single();
 
-  if (!item) notFound();
+  const { data: staffs } = await supabaseAdmin
+    .from("staff_members")
+    .select("id, name, role")
+    .eq("active", true)
+    .order("name");
+    if (!item) notFound();
 
   const { data: logs } = await supabaseAdmin
     .from("consultation_logs")
@@ -226,6 +231,22 @@ export default async function ConsultationDetailPage({
 
             <Button type="submit" className="w-full">
               기본 정보 저장
+              <label className="font-black">
+    담당자
+    <select
+      name="assigned_to"
+      defaultValue={item.assigned_to ?? ""}
+      className="mt-2 w-full rounded-2xl border p-4 font-bold"
+     >
+       <option value="">미배정</option>
+
+      {staffs?.map((staff) => (
+       <option key={staff.id} value={staff.id}>
+          {staff.name} ({staff.role})
+        </option>
+      ))}
+     </select>
+    </label>
             </Button>
           </form>
         </Card>

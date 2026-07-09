@@ -6,6 +6,8 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 export async function updateConsultationDetail(formData: FormData) {
   const id = String(formData.get("id"));
   const assignedTo = String(formData.get("assigned_to") || "");
+  const assigned_to =
+  String(formData.get("assigned_to") ?? "") || null;
 
   await supabaseAdmin
     .from("consultations")
@@ -18,6 +20,7 @@ export async function updateConsultationDetail(formData: FormData) {
       callback_at: String(formData.get("callback_at") || "") || null,
       payment_status: String(formData.get("payment_status") ?? "미지급"),
       assigned_to: assignedTo || null,
+      assigned_to,
     })
     .eq("id", id);
 
