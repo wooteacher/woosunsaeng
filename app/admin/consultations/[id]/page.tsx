@@ -4,6 +4,7 @@ import { redirect, notFound } from "next/navigation";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import CustomerSummary from "@/components/admin/CustomerSummary";
 import {
   updateConsultationDetail,
   addConsultationLog,
@@ -65,17 +66,25 @@ export default async function ConsultationDetailPage({
     .order("created_at", { ascending: false });
 
   const { data: staffMembers } = await supabaseAdmin
-    .from("staff_members")
-    .select("*")
-    .eq("active", true)
-    .order("created_at", { ascending: true });
+  .from("staff_members")
+  .select("*")
+  .eq("active", true)
+  .order("created_at", { ascending: true });
+
+const assignedStaff = staffMembers?.find(
+  (staff: any) => staff.id === item.assigned_to
+);
+
+const assignedName = assignedStaff?.name ?? "미배정";
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">
       <div className="mx-auto max-w-4xl">
         <Link href="/admin" className="font-black text-green-600">
-          ← 상담목록으로 돌아가기
-        </Link>
+  ← 상담목록으로 돌아가기
+</Link>
+
+<CustomerSummary item={item} assignedName={assignedName} />
 
         <Card className="mt-6 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">

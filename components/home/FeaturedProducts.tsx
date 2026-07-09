@@ -11,15 +11,17 @@ function manwon(value: number) {
 }
 
 export default async function FeaturedProducts() {
-  const { data: products, error } = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
   .from("products")
   .select("*")
   .eq("featured", true)
   .eq("active", true);
 
-console.log(products);
-console.log(error);
+const products = data ?? [];
 
+if (error) {
+  console.error(error);
+}
   return (
     <section className="bg-white py-24">
       <div className="mx-auto max-w-6xl px-6">
