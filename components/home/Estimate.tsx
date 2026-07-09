@@ -15,17 +15,55 @@ export default function Estimate() {
   const [done, setDone] = useState(false);
 
   const handleSubmit = async () => {
-    if (!name.trim() || !phone.trim()) {
+    const cleanName = name.trim();
+    const cleanPhone = phone.trim();
+    const normalizedPhone = cleanPhone.replace(/[^0-9]/g, "");
+
+    if (!cleanName || !cleanPhone) {
       alert("이름과 연락처를 입력해주세요.");
       return;
     }
 
     setLoading(true);
+    setDone(false);
+
+    const { data: existingList, error: duplicateError } = await supabase
+      .from("consultations")
+      .select("id, name, phone, status, created_at");
+
+    if (duplicateError) {
+      console.error(duplicateError);
+      alert("중복 확인 중 오류가 발생했습니다. 다시 시도해주세요.");
+      setLoading(false);
+      return;
+    }
+
+    const duplicate = existingList?.find((item) => {
+      const savedPhone = String(item.phone ?? "").replace(/[^0-9]/g, "");
+      return savedPhone === normalizedPhone;
+    });
+
+      console.log("전체 고객목록:", existingList);
+      console.log("중복 고객:", duplicate);
+
+    if (duplicate) {
+      const ok = window.confirm(
+        `이미 등록된 고객입니다.\n\n이름: ${duplicate.name}\n연락처: ${duplicate.phone}\n상태: ${
+          duplicate.status ?? "신규접수"
+        }\n\n그래도 신규 접수하시겠습니까?`
+      );
+
+      if (!ok) {
+        setLoading(false);
+        return;
+      }
+    }
 
     const { error } = await supabase.from("consultations").insert({
-      name,
-      phone,
+      name: cleanName,
+      phone: cleanPhone,
       service,
+      status: "신규접수",
     });
 
     setLoading(false);

@@ -66,50 +66,25 @@ export default async function ConsultationDetailPage({
     .order("created_at", { ascending: false });
 
   const { data: staffMembers } = await supabaseAdmin
-  .from("staff_members")
-  .select("*")
-  .eq("active", true)
-  .order("created_at", { ascending: true });
+    .from("staff_members")
+    .select("*")
+    .eq("active", true)
+    .order("created_at", { ascending: true });
 
-const assignedStaff = staffMembers?.find(
-  (staff: any) => staff.id === item.assigned_to
-);
+  const assignedStaff = staffMembers?.find(
+    (staff: any) => staff.id === item.assigned_to
+  );
 
-const assignedName = assignedStaff?.name ?? "미배정";
+  const assignedName = assignedStaff?.name ?? "미배정";
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-5xl">
         <Link href="/admin" className="font-black text-green-600">
-  ← 상담목록으로 돌아가기
-</Link>
+          ← 상담목록으로 돌아가기
+        </Link>
 
-<CustomerSummary item={item} assignedName={assignedName} />
-
-        <Card className="mt-6 p-6">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <h1 className="text-4xl font-black text-gray-950">
-                {item.name}
-              </h1>
-
-              <a
-                href={`tel:${item.phone}`}
-                className="mt-2 block text-2xl font-black text-green-600"
-              >
-                📞 {item.phone}
-              </a>
-
-              <p className="mt-2 font-bold text-gray-500">
-                접수일: {new Date(item.created_at).toLocaleString("ko-KR")}
-              </p>
-            </div>
-
-            <span className="rounded-full bg-green-100 px-4 py-2 font-black text-green-700">
-              {item.status ?? "신규접수"}
-            </span>
-          </div>
-        </Card>
+        <CustomerSummary item={item} assignedName={assignedName} />
 
         <Card className="mt-6 p-6">
           <h2 className="mb-5 text-2xl font-black">빠른 진행</h2>
@@ -128,11 +103,13 @@ const assignedName = assignedStaff?.name ?? "미배정";
           </div>
         </Card>
 
-        <Card className="mt-6 p-6">
-          <form action={updateConsultationDetail} className="space-y-5">
-            <input type="hidden" name="id" value={item.id} />
+        <form action={updateConsultationDetail} className="mt-6 space-y-6">
+          <input type="hidden" name="id" value={item.id} />
 
-            <div className="grid gap-4 md:grid-cols-2">
+          <Card className="p-6">
+            <h2 className="text-2xl font-black text-gray-950">기본 정보</h2>
+
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
               <label className="font-black">
                 담당자
                 <select
@@ -188,7 +165,7 @@ const assignedName = assignedStaff?.name ?? "미배정";
                 </select>
               </label>
 
-              <label className="font-black">
+              <label className="font-black md:col-span-2">
                 희망 TV
                 <input
                   name="desired_tv_plan"
@@ -197,7 +174,13 @@ const assignedName = assignedStaff?.name ?? "미배정";
                   className="mt-2 w-full rounded-2xl border p-4 font-bold"
                 />
               </label>
+            </div>
+          </Card>
 
+          <Card className="p-6">
+            <h2 className="text-2xl font-black text-gray-950">일정 정보</h2>
+
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
               <label className="font-black">
                 재통화 예정
                 <input
@@ -221,7 +204,13 @@ const assignedName = assignedStaff?.name ?? "미배정";
                   className="mt-2 w-full rounded-2xl border p-4 font-bold"
                 />
               </label>
+            </div>
+          </Card>
 
+          <Card className="p-6">
+            <h2 className="text-2xl font-black text-gray-950">지급 정보</h2>
+
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
               <label className="font-black">
                 지급상태
                 <select
@@ -286,23 +275,23 @@ const assignedName = assignedStaff?.name ?? "미배정";
                 />
               </label>
             </div>
+          </Card>
 
-            <Button type="submit" className="w-full">
-              기본 정보 저장
-            </Button>
-          </form>
+          <Button type="submit" className="w-full">
+            기본 정보 저장
+          </Button>
+        </form>
 
-          <form action={processPayment} className="mt-4">
-            <input type="hidden" name="id" value={item.id} />
+        <form action={processPayment} className="mt-4">
+          <input type="hidden" name="id" value={item.id} />
 
-            <Button
-              type="submit"
-              className="w-full bg-emerald-600 hover:bg-emerald-700"
-            >
-              💰 지급 완료 처리
-            </Button>
-          </form>
-        </Card>
+          <Button
+            type="submit"
+            className="w-full bg-emerald-600 hover:bg-emerald-700"
+          >
+            💰 지급 완료 처리
+          </Button>
+        </form>
 
         <Card className="mt-6 p-6">
           <h2 className="text-2xl font-black text-gray-950">상담 이력</h2>

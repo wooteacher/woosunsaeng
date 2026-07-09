@@ -7,6 +7,9 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import KpiCard from "@/components/admin/KpiCard";
+import TodayTodo from "@/components/admin/TodayTodo";
+import StaffRanking from "@/components/admin/StaffRanking";
+import DashboardFunnel from "@/components/admin/DashboardFunnel";
 
 const statuses = [
   "신규접수",
@@ -33,9 +36,7 @@ export default async function AdminPage({
   const cookieStore = await cookies();
   const isAdmin = cookieStore.get("admin-auth")?.value === "true";
 
-  if (!isAdmin) {
-    redirect("/admin/login");
-  }
+  if (!isAdmin) redirect("/admin/login");
 
   const params = await searchParams;
   const q = params?.q?.trim() ?? "";
@@ -72,79 +73,15 @@ export default async function AdminPage({
         </div>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
-          <Card className="p-6 lg:col-span-2">
-            <h2 className="text-2xl font-black text-gray-950">
-              🔥 오늘 해야 할 일
-            </h2>
+          <div className="lg:col-span-2">
+            <TodayTodo kpi={kpi} />
+          </div>
 
-            <div className="mt-5 grid gap-4 md:grid-cols-2">
-              <Link
-                href="/admin/installations"
-                className="rounded-2xl bg-green-50 p-5 ring-1 ring-green-100"
-              >
-                <p className="font-black text-green-700">📅 오늘 설치</p>
-                <p className="mt-2 text-3xl font-black text-gray-950">
-                  {kpi.todayInstalls}건
-                </p>
-              </Link>
+          <StaffRanking staffRanking={staffRanking} />
+        </div>
 
-              <Link
-                href="/admin/payments"
-                className="rounded-2xl bg-emerald-50 p-5 ring-1 ring-emerald-100"
-              >
-                <p className="font-black text-emerald-700">💰 지급 예정</p>
-                <p className="mt-2 text-3xl font-black text-gray-950">
-                  {kpi.paymentTodos}건
-                </p>
-              </Link>
-
-              <Link
-                href="/admin"
-                className="rounded-2xl bg-yellow-50 p-5 ring-1 ring-yellow-100"
-              >
-                <p className="font-black text-yellow-700">☎️ 오늘 재통화</p>
-                <p className="mt-2 text-3xl font-black text-gray-950">
-                  {kpi.todayCallbacks}건
-                </p>
-              </Link>
-
-              <Link
-                href="/admin"
-                className="rounded-2xl bg-red-50 p-5 ring-1 ring-red-100"
-              >
-                <p className="font-black text-red-700">🚨 오래된 상담</p>
-                <p className="mt-2 text-3xl font-black text-gray-950">
-                  {kpi.oldConsultations}건
-                </p>
-              </Link>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <h2 className="text-2xl font-black text-gray-950">
-              👨 직원 현황
-            </h2>
-
-            <div className="mt-5 space-y-4">
-              {staffRanking.slice(0, 5).map((staff) => (
-                <div
-                  key={staff.name}
-                  className="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100"
-                >
-                  <p className="font-black text-gray-950">{staff.name}</p>
-                  <div className="mt-2 grid grid-cols-3 gap-2 text-sm font-bold text-gray-600">
-                    <p>상담 {staff.total}</p>
-                    <p>설치 {staff.installed}</p>
-                    <p>지급 {staff.paid}</p>
-                  </div>
-                </div>
-              ))}
-
-              {staffRanking.length === 0 && (
-                <p className="font-bold text-gray-500">직원 데이터가 없습니다.</p>
-              )}
-            </div>
-          </Card>
+        <div className="mt-8">
+          <DashboardFunnel data={kpi} />
         </div>
 
         <Card className="mt-8 p-5">

@@ -137,6 +137,14 @@ export async function getAdminDashboard(q = "", role = "super_admin", staffId = 
   return {
     list,
     kpi: {
+      newCount: list.filter((item: any) => item.status === "신규접수").length,
+      consultingCount: list.filter((item: any) => item.status === "상담중").length,
+      confirmedCount: list.filter((item: any) => item.status === "상품확정").length,
+      installConfirmedCount: list.filter(
+     (item: any) => item.status === "설치일 확정"
+      ).length,
+      installedCount: list.filter((item: any) => item.status === "설치완료").length,
+      paidCount: list.filter((item: any) => item.status === "지급완료").length,
       todayNew: todayNew.length,
       todayCallbacks: todayCallbacks.length,
       todayInstalls: todayInstalls.length,
