@@ -63,6 +63,12 @@ export default async function ConsultationDetailPage({
     .eq("consultation_id", id)
     .order("created_at", { ascending: false });
 
+  const { data: staffMembers } = await supabaseAdmin
+    .from("staff_members")
+    .select("*")
+    .eq("active", true)
+    .order("created_at", { ascending: true });
+
   return (
     <main className="min-h-screen bg-gray-50 p-6">
       <div className="mx-auto max-w-4xl">
@@ -115,6 +121,22 @@ export default async function ConsultationDetailPage({
             <input type="hidden" name="id" value={item.id} />
 
             <div className="grid gap-4 md:grid-cols-2">
+              <label className="font-black">
+                담당자
+                <select
+                  name="assigned_to"
+                  defaultValue={item.assigned_to ?? ""}
+                  className="mt-2 w-full rounded-2xl border p-4 font-bold"
+                >
+                  <option value="">미배정</option>
+                  {staffMembers?.map((staff) => (
+                    <option key={staff.id} value={staff.id}>
+                      {staff.name} / {staff.role}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
               <label className="font-black">
                 진행상태
                 <select

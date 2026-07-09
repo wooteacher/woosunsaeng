@@ -48,19 +48,19 @@ export default async function AdminPage({
         <div>
           <h1 className="text-4xl font-black text-gray-950">우선생 CRM</h1>
           <p className="mt-2 font-bold text-gray-600">
-            오늘 처리해야 할 상담과 진행 상황을 확인합니다.
+            오늘 처리해야 할 상담과 담당자 현황을 확인합니다.
           </p>
         </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-4">
           <StatCard title="오늘 신규" value={stats.today} icon="📞" />
+          <StatCard title="미배정" value={stats.unassigned} icon="👤" />
           <StatCard title="재통화 예정" value={stats.callback} icon="☎️" />
           <StatCard title="고객검토중" value={stats.reviewing} icon="⚠️" />
           <StatCard title="통신사 접수" value={stats.submitted} icon="📡" />
           <StatCard title="설치일 확정" value={stats.installConfirmed} icon="📅" />
           <StatCard title="설치완료" value={stats.installed} icon="🏠" />
           <StatCard title="지급완료" value={stats.paid} icon="💵" />
-          <StatCard title="상담중" value={stats.consulting} icon="🟢" />
         </div>
 
         <Card className="mt-8 p-5">
@@ -103,6 +103,12 @@ export default async function AdminPage({
                 <p>통신사: {item.carrier || "-"}</p>
                 <p>속도: {item.desired_speed || "-"}</p>
                 <p>
+                  담당자:{" "}
+                  {item.staff_members?.name
+                    ? `${item.staff_members.name} / ${item.staff_members.role}`
+                    : "미배정"}
+                </p>
+                <p className="md:col-span-2">
                   접수일: {new Date(item.created_at).toLocaleString("ko-KR")}
                 </p>
               </div>

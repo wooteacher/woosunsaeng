@@ -8,13 +8,13 @@ export default function Hero() {
         <div>
           <p className="text-base font-black text-green-700">{SITE.slogan}</p>
 
-          <h1 className="mt-5 text-5xl font-black leading-tight tracking-tight text-gray-950 md:text-7xl">
+          <h1 className="mt-5 text-5xl font-black leading-tight tracking-tight text-gray-950 md:text-6xl">
             복잡한 비교는
             <br />
             저희가 하겠습니다.
           </h1>
 
-          <p className="mt-6 text-xl font-bold leading-9 text-gray-700">
+          <p className="mt-6 text-xl font-bold leading-9 text-blue-700">
             고객님은 상담만 신청하세요.
             <br />
             인터넷 + TV · 렌탈을 쉽고 빠르게 도와드립니다.

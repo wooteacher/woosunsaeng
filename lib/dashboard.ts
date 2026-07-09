@@ -3,7 +3,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 export async function getDashboardData(q = "") {
   let query = supabaseAdmin
     .from("consultations")
-    .select("*")
+    .select("*, staff_members(name, role)")
     .order("created_at", { ascending: false });
 
   if (q) {
@@ -27,20 +27,13 @@ export async function getDashboardData(q = "") {
           }) === today
       ).length,
 
+      unassigned: list.filter((item) => !item.assigned_to).length,
       consulting: list.filter((item) => item.status === "상담중").length,
-
       callback: list.filter((item) => item.status === "재통화 예정").length,
-
       reviewing: list.filter((item) => item.status === "고객검토중").length,
-
       submitted: list.filter((item) => item.status === "통신사 접수").length,
-
-      installConfirmed: list.filter(
-        (item) => item.status === "설치일 확정"
-      ).length,
-
+      installConfirmed: list.filter((item) => item.status === "설치일 확정").length,
       installed: list.filter((item) => item.status === "설치완료").length,
-
       paid: list.filter((item) => item.status === "지급완료").length,
     },
   };
