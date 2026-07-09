@@ -2,11 +2,11 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { updateConsultation } from "./actions";
-import { getDashboardData } from "@/lib/dashboard";
+import { getAdminDashboard } from "@/services/dashboard.service";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
-import StatCard from "@/components/ui/StatCard";
+import KpiCard from "@/components/admin/KpiCard";
 
 const statuses = [
   "신규접수",
@@ -43,27 +43,108 @@ export default async function AdminPage({
   const role = cookieStore.get("staff-role")?.value ?? "super_admin";
   const staffId = cookieStore.get("staff-id")?.value ?? "";
 
-  const { list, stats } = await getDashboardData(q, role, staffId);
+  const { list, kpi, staffRanking } = await getAdminDashboard(q, role, staffId);
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-7xl">
         <div>
-          <h1 className="text-4xl font-black text-gray-950">우선생 CRM</h1>
+          <h1 className="text-4xl font-black text-gray-950">우선생 Dashboard</h1>
           <p className="mt-2 font-bold text-gray-600">
-            오늘 처리해야 할 상담과 담당자 현황을 확인합니다.
+            오늘 해야 할 업무와 회사 현황을 확인합니다.
           </p>
         </div>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-4">
-          <StatCard title="오늘 신규" value={stats.today} icon="📞" />
-          <StatCard title="미배정" value={stats.unassigned} icon="👤" />
-          <StatCard title="재통화 예정" value={stats.callback} icon="☎️" />
-          <StatCard title="고객검토중" value={stats.reviewing} icon="⚠️" />
-          <StatCard title="통신사 접수" value={stats.submitted} icon="📡" />
-          <StatCard title="설치일 확정" value={stats.installConfirmed} icon="📅" />
-          <StatCard title="설치완료" value={stats.installed} icon="🏠" />
-          <StatCard title="지급완료" value={stats.paid} icon="💵" />
+        <div className="mt-8 grid gap-4 md:grid-cols-3 xl:grid-cols-6">
+          <KpiCard title="오늘 신규" value={kpi.todayNew} icon="📞" />
+          <KpiCard title="오늘 재통화" value={kpi.todayCallbacks} icon="☎️" />
+          <KpiCard title="오늘 설치" value={kpi.todayInstalls} icon="📅" />
+          <KpiCard title="지급 예정" value={kpi.paymentTodos} icon="💰" />
+          <KpiCard title="미배정" value={kpi.unassigned} icon="👤" />
+          <KpiCard title="오래된 상담" value={kpi.oldConsultations} icon="🚨" />
+        </div>
+
+        <div className="mt-6 grid gap-4 md:grid-cols-4">
+          <KpiCard title="이번달 신규" value={kpi.monthNew} icon="📊" />
+          <KpiCard title="이번달 설치" value={kpi.monthInstalled} icon="🏠" />
+          <KpiCard title="이번달 지급" value={kpi.monthPaid} icon="💵" />
+          <KpiCard title="설치율" value={kpi.installRate} icon="📈" />
+        </div>
+
+        <div className="mt-8 grid gap-6 lg:grid-cols-3">
+          <Card className="p-6 lg:col-span-2">
+            <h2 className="text-2xl font-black text-gray-950">
+              🔥 오늘 해야 할 일
+            </h2>
+
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              <Link
+                href="/admin/installations"
+                className="rounded-2xl bg-green-50 p-5 ring-1 ring-green-100"
+              >
+                <p className="font-black text-green-700">📅 오늘 설치</p>
+                <p className="mt-2 text-3xl font-black text-gray-950">
+                  {kpi.todayInstalls}건
+                </p>
+              </Link>
+
+              <Link
+                href="/admin/payments"
+                className="rounded-2xl bg-emerald-50 p-5 ring-1 ring-emerald-100"
+              >
+                <p className="font-black text-emerald-700">💰 지급 예정</p>
+                <p className="mt-2 text-3xl font-black text-gray-950">
+                  {kpi.paymentTodos}건
+                </p>
+              </Link>
+
+              <Link
+                href="/admin"
+                className="rounded-2xl bg-yellow-50 p-5 ring-1 ring-yellow-100"
+              >
+                <p className="font-black text-yellow-700">☎️ 오늘 재통화</p>
+                <p className="mt-2 text-3xl font-black text-gray-950">
+                  {kpi.todayCallbacks}건
+                </p>
+              </Link>
+
+              <Link
+                href="/admin"
+                className="rounded-2xl bg-red-50 p-5 ring-1 ring-red-100"
+              >
+                <p className="font-black text-red-700">🚨 오래된 상담</p>
+                <p className="mt-2 text-3xl font-black text-gray-950">
+                  {kpi.oldConsultations}건
+                </p>
+              </Link>
+            </div>
+          </Card>
+
+          <Card className="p-6">
+            <h2 className="text-2xl font-black text-gray-950">
+              👨 직원 현황
+            </h2>
+
+            <div className="mt-5 space-y-4">
+              {staffRanking.slice(0, 5).map((staff) => (
+                <div
+                  key={staff.name}
+                  className="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100"
+                >
+                  <p className="font-black text-gray-950">{staff.name}</p>
+                  <div className="mt-2 grid grid-cols-3 gap-2 text-sm font-bold text-gray-600">
+                    <p>상담 {staff.total}</p>
+                    <p>설치 {staff.installed}</p>
+                    <p>지급 {staff.paid}</p>
+                  </div>
+                </div>
+              ))}
+
+              {staffRanking.length === 0 && (
+                <p className="font-bold text-gray-500">직원 데이터가 없습니다.</p>
+              )}
+            </div>
+          </Card>
         </div>
 
         <Card className="mt-8 p-5">
@@ -82,7 +163,7 @@ export default async function AdminPage({
         </Card>
 
         <div className="mt-6 space-y-5">
-          {list.map((item) => (
+          {list.map((item: any) => (
             <Card key={item.id} className="p-6">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>

@@ -40,3 +40,17 @@ export async function createStaff(formData: FormData) {
 
   revalidatePath("/admin/staff");
 }
+
+export async function unassignStaffCustomers(formData: FormData) {
+  const staffId = String(formData.get("staff_id") ?? "");
+
+  if (!staffId) return;
+
+  await supabaseAdmin
+    .from("consultations")
+    .update({ assigned_to: null })
+    .eq("assigned_to", staffId);
+
+  revalidatePath("/admin/staff");
+  revalidatePath("/admin");
+}

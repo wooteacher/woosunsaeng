@@ -8,6 +8,7 @@ import {
   updateConsultationDetail,
   addConsultationLog,
   quickUpdateStatus,
+  processPayment,
 } from "./actions";
 
 const statuses = [
@@ -55,12 +56,7 @@ export default async function ConsultationDetailPage({
     .eq("id", id)
     .single();
 
-  const { data: staffs } = await supabaseAdmin
-    .from("staff_members")
-    .select("id, name, role")
-    .eq("active", true)
-    .order("name");
-    if (!item) notFound();
+  if (!item) notFound();
 
   const { data: logs } = await supabaseAdmin
     .from("consultation_logs")
@@ -84,7 +80,9 @@ export default async function ConsultationDetailPage({
         <Card className="mt-6 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <h1 className="text-4xl font-black text-gray-950">{item.name}</h1>
+              <h1 className="text-4xl font-black text-gray-950">
+                {item.name}
+              </h1>
 
               <a
                 href={`tel:${item.phone}`}
@@ -227,26 +225,72 @@ export default async function ConsultationDetailPage({
                   <option>지급완료</option>
                 </select>
               </label>
+
+              <label className="font-black">
+                지급액
+                <input
+                  name="payout_amount"
+                  type="number"
+                  defaultValue={item.payout_amount ?? 0}
+                  placeholder="450000"
+                  className="mt-2 w-full rounded-2xl border p-4 font-bold"
+                />
+              </label>
+
+              <label className="font-black">
+                지급은행
+                <input
+                  name="payout_bank"
+                  defaultValue={item.payout_bank ?? ""}
+                  placeholder="국민은행"
+                  className="mt-2 w-full rounded-2xl border p-4 font-bold"
+                />
+              </label>
+
+              <label className="font-black">
+                지급계좌
+                <input
+                  name="payout_account"
+                  defaultValue={item.payout_account ?? ""}
+                  placeholder="123456-00-000000"
+                  className="mt-2 w-full rounded-2xl border p-4 font-bold"
+                />
+              </label>
+
+              <label className="font-black">
+                예금주
+                <input
+                  name="payout_holder"
+                  defaultValue={item.payout_holder ?? ""}
+                  placeholder="홍길동"
+                  className="mt-2 w-full rounded-2xl border p-4 font-bold"
+                />
+              </label>
+
+              <label className="font-black md:col-span-2">
+                지급메모
+                <input
+                  name="payout_memo"
+                  defaultValue={item.payout_memo ?? ""}
+                  placeholder="지급 관련 메모"
+                  className="mt-2 w-full rounded-2xl border p-4 font-bold"
+                />
+              </label>
             </div>
 
             <Button type="submit" className="w-full">
               기본 정보 저장
-              <label className="font-black">
-    담당자
-    <select
-      name="assigned_to"
-      defaultValue={item.assigned_to ?? ""}
-      className="mt-2 w-full rounded-2xl border p-4 font-bold"
-     >
-       <option value="">미배정</option>
+            </Button>
+          </form>
 
-      {staffs?.map((staff) => (
-       <option key={staff.id} value={staff.id}>
-          {staff.name} ({staff.role})
-        </option>
-      ))}
-     </select>
-    </label>
+          <form action={processPayment} className="mt-4">
+            <input type="hidden" name="id" value={item.id} />
+
+            <Button
+              type="submit"
+              className="w-full bg-emerald-600 hover:bg-emerald-700"
+            >
+              💰 지급 완료 처리
             </Button>
           </form>
         </Card>

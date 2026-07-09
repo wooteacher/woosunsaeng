@@ -23,7 +23,17 @@ const allMenus = [
     href: "/admin/staff",
     label: "👨 직원관리",
     roles: ["super_admin"],
-  },
+  },  
+  {
+  href: "/admin/installations",
+  label: "📅 설치관리",
+  roles: ["super_admin", "manager", "staff"],
+ },
+ {
+  href: "/admin/payments",
+  label: "💰 지급관리",
+  roles: ["super_admin", "manager"],
+},
 ];
 
 export default function AdminSidebar({

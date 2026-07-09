@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
-import { createStaff } from "./actions";
+import { createStaff, unassignStaffCustomers } from "./actions";
 
 export default async function StaffPage() {
   const cookieStore = await cookies();
@@ -20,7 +20,7 @@ export default async function StaffPage() {
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-6xl">
         <h1 className="text-4xl font-black text-gray-950">직원관리</h1>
 
         <Card className="mt-8 p-6">
@@ -42,19 +42,34 @@ export default async function StaffPage() {
           </form>
         </Card>
 
-        <div className="mt-8 space-y-4">
+        <Card className="mt-8 overflow-hidden p-0">
+          <div className="grid grid-cols-6 bg-gray-100 p-4 text-sm font-black text-gray-600">
+            <p>이름</p>
+            <p>아이디</p>
+            <p>권한</p>
+            <p>연락처</p>
+            <p>상태</p>
+            <p>관리</p>
+          </div>
+
           {staff?.map((item) => (
-            <Card key={item.id} className="p-5">
-              <p className="text-xl font-black">{item.name}</p>
-              <p className="mt-2 font-bold text-gray-600">
-                ID: {item.login_id ?? "-"} / 권한: {item.role}
-              </p>
-              <p className="font-bold text-gray-500">
-                상태: {item.active ? "활성" : "비활성"}
-              </p>
-            </Card>
+            <div
+              key={item.id}
+              className="grid grid-cols-6 items-center border-t p-4 text-sm font-bold"
+            >
+              <p className="font-black text-gray-950">{item.name}</p>
+              <p>{item.login_id ?? "-"}</p>
+              <p>{item.role}</p>
+              <p>{item.phone || "-"}</p>
+              <p>{item.active ? "활성" : "비활성"}</p>
+
+              <form action={unassignStaffCustomers}>
+                <input type="hidden" name="staff_id" value={item.id} />
+                <Button type="submit">담당 고객 미배정</Button>
+              </form>
+            </div>
           ))}
-        </div>
+        </Card>
       </div>
     </main>
   );
