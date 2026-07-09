@@ -30,6 +30,13 @@ const statuses = [
 const carriers = ["", "KT", "LG", "SK", "SKB", "SkyLife", "LG HelloVision"];
 const speeds = ["", "100M", "500M", "1G"];
 
+const quickStatuses = [
+  { label: "📡 통신사 접수", value: "통신사 접수" },
+  { label: "📅 설치일 확정", value: "설치일 확정" },
+  { label: "🏠 설치완료", value: "설치완료" },
+  { label: "💵 지급완료", value: "지급완료" },
+];
+
 export default async function ConsultationDetailPage({
   params,
 }: {
@@ -38,9 +45,7 @@ export default async function ConsultationDetailPage({
   const cookieStore = await cookies();
   const isAdmin = cookieStore.get("admin-auth")?.value === "true";
 
-  if (!isAdmin) {
-    redirect("/admin/login");
-  }
+  if (!isAdmin) redirect("/admin/login");
 
   const { id } = await params;
 
@@ -68,9 +73,7 @@ export default async function ConsultationDetailPage({
         <Card className="mt-6 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <h1 className="text-4xl font-black text-gray-950">
-                {item.name}
-              </h1>
+              <h1 className="text-4xl font-black text-gray-950">{item.name}</h1>
 
               <a
                 href={`tel:${item.phone}`}
@@ -87,6 +90,23 @@ export default async function ConsultationDetailPage({
             <span className="rounded-full bg-green-100 px-4 py-2 font-black text-green-700">
               {item.status ?? "신규접수"}
             </span>
+          </div>
+        </Card>
+
+        <Card className="mt-6 p-6">
+          <h2 className="mb-5 text-2xl font-black">빠른 진행</h2>
+
+          <div className="grid gap-3 md:grid-cols-4">
+            {quickStatuses.map((status) => (
+              <form key={status.value} action={quickUpdateStatus}>
+                <input type="hidden" name="id" value={item.id} />
+                <input type="hidden" name="status" value={status.value} />
+
+                <Button type="submit" className="w-full">
+                  {status.label}
+                </Button>
+              </form>
+            ))}
           </div>
         </Card>
 
@@ -224,12 +244,10 @@ export default async function ConsultationDetailPage({
               <p className="font-bold text-gray-500">
                 아직 상담 이력이 없습니다.
               </p>
-
             )}
           </div>
         </Card>
       </div>
     </main>
-
-);
+  );
 }

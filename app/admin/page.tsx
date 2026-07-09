@@ -48,15 +48,19 @@ export default async function AdminPage({
         <div>
           <h1 className="text-4xl font-black text-gray-950">우선생 CRM</h1>
           <p className="mt-2 font-bold text-gray-600">
-            상담 접수와 진행 상태를 관리합니다.
+            오늘 처리해야 할 상담과 진행 상황을 확인합니다.
           </p>
         </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-4">
-          <StatCard title="오늘 문의" value={stats.today} icon="📞" />
+          <StatCard title="오늘 신규" value={stats.today} icon="📞" />
+          <StatCard title="재통화 예정" value={stats.callback} icon="☎️" />
+          <StatCard title="고객검토중" value={stats.reviewing} icon="⚠️" />
+          <StatCard title="통신사 접수" value={stats.submitted} icon="📡" />
+          <StatCard title="설치일 확정" value={stats.installConfirmed} icon="📅" />
+          <StatCard title="설치완료" value={stats.installed} icon="🏠" />
+          <StatCard title="지급완료" value={stats.paid} icon="💵" />
           <StatCard title="상담중" value={stats.consulting} icon="🟢" />
-          <StatCard title="설치완료" value={stats.installed} icon="🛠️" />
-          <StatCard title="지급완료" value={stats.paid} icon="💰" />
         </div>
 
         <Card className="mt-8 p-5">
@@ -87,19 +91,20 @@ export default async function AdminPage({
                     href={`tel:${item.phone}`}
                     className="mt-1 block text-lg font-black text-green-600"
                   >
-                    {item.phone}
+                    📞 {item.phone}
                   </a>
                 </div>
 
                 <Badge>{item.status ?? "신규접수"}</Badge>
               </div>
 
-              <div className="mt-5 grid gap-3 text-sm font-bold text-gray-600 md:grid-cols-3">
+              <div className="mt-5 grid gap-3 text-sm font-bold text-gray-600 md:grid-cols-4">
                 <p>서비스: {item.service}</p>
+                <p>통신사: {item.carrier || "-"}</p>
+                <p>속도: {item.desired_speed || "-"}</p>
                 <p>
                   접수일: {new Date(item.created_at).toLocaleString("ko-KR")}
                 </p>
-                <p>ID: {item.id.slice(0, 8)}</p>
               </div>
 
               <form action={updateConsultation} className="mt-6 space-y-4">
@@ -120,7 +125,7 @@ export default async function AdminPage({
                 <textarea
                   name="memo"
                   defaultValue={item.memo ?? ""}
-                  placeholder="상담 메모를 입력하세요."
+                  placeholder="간단 메모를 입력하세요."
                   className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 font-bold outline-none focus:border-green-500"
                   rows={3}
                 />

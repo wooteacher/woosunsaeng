@@ -26,8 +26,21 @@ export async function getDashboardData(q = "") {
             timeZone: "Asia/Seoul",
           }) === today
       ).length,
+
       consulting: list.filter((item) => item.status === "상담중").length,
+
+      callback: list.filter((item) => item.status === "재통화 예정").length,
+
+      reviewing: list.filter((item) => item.status === "고객검토중").length,
+
+      submitted: list.filter((item) => item.status === "통신사 접수").length,
+
+      installConfirmed: list.filter(
+        (item) => item.status === "설치일 확정"
+      ).length,
+
       installed: list.filter((item) => item.status === "설치완료").length,
+
       paid: list.filter((item) => item.status === "지급완료").length,
     },
   };
