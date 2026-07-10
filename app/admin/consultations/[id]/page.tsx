@@ -5,7 +5,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import CustomerCard from "@/components/admin/customer/CustomerCard";
-import ConsultationTimeline from "@/components/admin/ConsultationTimeline";
+import ConsultationTimeline from "@/components/admin/customer/ConsultationTimeline";
 import {
   updateConsultationDetail,
   addConsultationLog,
@@ -96,7 +96,7 @@ export default async function ConsultationDetailPage({
                 <input type="hidden" name="id" value={item.id} />
                 <input type="hidden" name="status" value={status.value} />
 
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full">c
                   {status.label}
                 </Button>
               </form>
