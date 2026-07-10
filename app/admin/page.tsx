@@ -6,11 +6,11 @@ import { getAdminDashboard } from "@/services/dashboard.service";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
-import KpiCard from "@/components/admin/KpiCard";
-import TodayTodo from "@/components/admin/TodayTodo";
-import StaffRanking from "@/components/admin/StaffRanking";
-import DashboardFunnel from "@/components/admin/DashboardFunnel";
-import OldConsultationAlert from "@/components/admin/OldConsultationAlert";
+import KpiCard from "@/components/admin/dashboard/KpiCard";
+import TodayTodo from "@/components/admin/dashboard/TodayTodo";
+import StaffRanking from "@/components/admin/dashboard/StaffRanking";
+import DashboardFunnel from "@/components/admin/dashboard/DashboardFunnel";
+import OldConsultationAlert from "@/components/admin/dashboard/OldConsultationAlert";
 
 const statuses = [
   "신규접수",
