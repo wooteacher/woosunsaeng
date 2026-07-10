@@ -135,29 +135,36 @@ export async function getAdminDashboard(q = "", role = "super_admin", staffId = 
       : Math.round((monthInstalled.length / monthItems.length) * 100);
 
   return {
-    list,
-    kpi: {
-      newCount: list.filter((item: any) => item.status === "신규접수").length,
-      consultingCount: list.filter((item: any) => item.status === "상담중").length,
-      confirmedCount: list.filter((item: any) => item.status === "상품확정").length,
-      installConfirmedCount: list.filter(
-     (item: any) => item.status === "설치일 확정"
-      ).length,
-      installedCount: list.filter((item: any) => item.status === "설치완료").length,
-      paidCount: list.filter((item: any) => item.status === "지급완료").length,
-      todayNew: todayNew.length,
-      todayCallbacks: todayCallbacks.length,
-      todayInstalls: todayInstalls.length,
-      paymentTodos: paymentTodos.length,
-      unassigned: unassigned.length,
-      oldConsultations: oldConsultations.length
-      oldConsultationList: oldConsultations.slice(0, 5),
-      monthNew: monthItems.length,
-      monthInstalled: monthInstalled.length,
-      monthPaid: monthPaid.length,
-      monthPayout: won(monthPayout),
-      installRate: `${installRate}%`,
-    },
-    staffRanking,
-  };
+  list,
+  kpi: {
+    newCount: list.filter((item: any) => item.status === "신규접수").length,
+    consultingCount: list.filter((item: any) => item.status === "상담중").length,
+    confirmedCount: list.filter((item: any) => item.status === "상품확정").length,
+    installConfirmedCount: list.filter(
+      (item: any) => item.status === "설치일 확정"
+    ).length,
+    installedCount: list.filter(
+      (item: any) => item.status === "설치완료"
+    ).length,
+    paidCount: list.filter(
+      (item: any) => item.status === "지급완료"
+    ).length,
+
+    todayNew: todayNew.length,
+    todayCallbacks: todayCallbacks.length,
+    todayInstalls: todayInstalls.length,
+    paymentTodos: paymentTodos.length,
+    unassigned: unassigned.length,
+    oldConsultations: oldConsultations.length,
+    monthNew: monthItems.length,
+    monthInstalled: monthInstalled.length,
+    monthPaid: monthPaid.length,
+    monthPayout: won(monthPayout),
+    installRate: `${installRate}%`,
+  },
+
+  oldConsultationList: oldConsultations.slice(0, 5),
+
+  staffRanking,
+};
 }
