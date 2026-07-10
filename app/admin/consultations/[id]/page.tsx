@@ -4,7 +4,7 @@ import { redirect, notFound } from "next/navigation";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
-import CustomerSummary from "@/components/admin/CustomerSummary";
+import CustomerCard from "@/components/admin/customer/CustomerCard";
 import ConsultationTimeline from "@/components/admin/ConsultationTimeline";
 import {
   updateConsultationDetail,
@@ -85,7 +85,7 @@ export default async function ConsultationDetailPage({
           ← 상담목록으로 돌아가기
         </Link>
 
-        <CustomerSummary item={item} assignedName={assignedName} />
+        <CustomerCard item={item} assignedName={assignedName} />
 
         <Card className="mt-6 p-6">
           <h2 className="mb-5 text-2xl font-black">빠른 진행</h2>
