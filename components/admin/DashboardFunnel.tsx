@@ -11,7 +11,7 @@ export default function DashboardFunnel({
   data,
 }: {
   data: Record<string, number | string>;
-}) {npm run build
+}) {
   return (
     <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
       <h2 className="text-2xl font-black text-gray-950">📈 상담 진행 현황</h2>

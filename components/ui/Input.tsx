@@ -1,29 +1,15 @@
-type InputProps = {
-  name?: string;
-  type?: string;
-  placeholder?: string;
-  defaultValue?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
+import type { InputHTMLAttributes } from "react";
+
+type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
 export default function Input({
-  name,
-  type = "text",
-  placeholder,
-  defaultValue,
-  value,
-  onChange,
+  className = "",
+  ...props
 }: InputProps) {
   return (
     <input
-      name={name}
-      type={type}
-      placeholder={placeholder}
-      defaultValue={defaultValue}
-      value={value}
-      onChange={onChange}
-      className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 font-bold outline-none transition focus:border-green-500 focus:bg-white"
+      {...props}
+      className={`w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 font-bold outline-none transition focus:border-green-500 focus:bg-white ${className}`}
     />
   );
 }
