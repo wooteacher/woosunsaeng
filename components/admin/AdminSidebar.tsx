@@ -15,6 +15,11 @@ const allMenus = [
     roles: ["super_admin", "manager", "staff"],
   },
   {
+  href: "/admin/calendar",
+  label: "📅 일정관리",
+  roles: ["super_admin", "manager", "staff"],
+  },
+  {
     href: "/admin/products",
     label: "📦 상품관리",
     roles: ["super_admin", "manager"],
