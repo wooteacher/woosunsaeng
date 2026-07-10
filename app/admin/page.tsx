@@ -10,6 +10,7 @@ import KpiCard from "@/components/admin/KpiCard";
 import TodayTodo from "@/components/admin/TodayTodo";
 import StaffRanking from "@/components/admin/StaffRanking";
 import DashboardFunnel from "@/components/admin/DashboardFunnel";
+import OldConsultationAlert from "@/components/admin/OldConsultationAlert";
 
 const statuses = [
   "신규접수",
@@ -47,11 +48,12 @@ export default async function AdminPage({
   const role = cookieStore.get("staff-role")?.value ?? "super_admin";
   const staffId = cookieStore.get("staff-id")?.value ?? "";
 
-  const { list, kpi, staffRanking } = await getAdminDashboard(
-  q,
-  role,
-  staffId
-);
+  const {
+  list,
+  kpi,
+  oldConsultationList,
+  staffRanking,
+} = await getAdminDashboard(q, role, staffId);
 
 const statusFilter = params?.status?.trim() ?? "";
 
@@ -92,6 +94,8 @@ const filteredList = statusFilter
 
           <StaffRanking staffRanking={staffRanking} />
         </div>
+
+        <OldConsultationAlert items={oldConsultationList} />
 
         <div className="mt-8">
        <DashboardFunnel
