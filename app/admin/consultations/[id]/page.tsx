@@ -5,6 +5,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import CustomerSummary from "@/components/admin/CustomerSummary";
+import ConsultationTimeline from "@/components/admin/ConsultationTimeline";
 import {
   updateConsultationDetail,
   addConsultationLog,
@@ -311,26 +312,9 @@ export default async function ConsultationDetailPage({
             </Button>
           </form>
 
-          <div className="mt-8 space-y-4">
-            {logs?.map((log) => (
-              <div
-                key={log.id}
-                className="rounded-2xl bg-gray-50 p-5 ring-1 ring-gray-100"
-              >
-                <p className="font-black text-gray-950">{log.content}</p>
-                <p className="mt-3 text-sm font-bold text-gray-500">
-                  {log.created_by ?? "관리자"} ·{" "}
-                  {new Date(log.created_at).toLocaleString("ko-KR")}
-                </p>
-              </div>
-            ))}
-
-            {logs?.length === 0 && (
-              <p className="font-bold text-gray-500">
-                아직 상담 이력이 없습니다.
-              </p>
-            )}
-          </div>
+          <div className="mt-8">
+  <ConsultationTimeline logs={logs ?? []} />
+</div>
         </Card>
       </div>
     </main>

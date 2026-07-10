@@ -31,7 +31,10 @@ const statuses = [
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ q?: string }>;
+  searchParams?: Promise<{
+  q?: string;
+  status?: string;
+}>;
 }) {
   const cookieStore = await cookies();
   const isAdmin = cookieStore.get("admin-auth")?.value === "true";
@@ -44,7 +47,17 @@ export default async function AdminPage({
   const role = cookieStore.get("staff-role")?.value ?? "super_admin";
   const staffId = cookieStore.get("staff-id")?.value ?? "";
 
-  const { list, kpi, staffRanking } = await getAdminDashboard(q, role, staffId);
+  const { list, kpi, staffRanking } = await getAdminDashboard(
+  q,
+  role,
+  staffId
+);
+
+const statusFilter = params?.status?.trim() ?? "";
+
+const filteredList = statusFilter
+  ? list.filter((item: any) => item.status === statusFilter)
+  : list;
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">
@@ -94,22 +107,51 @@ export default async function AdminPage({
         </div>
 
         <Card className="mt-8 p-5">
-          <form className="flex flex-col gap-3 md:flex-row">
-            <input
-              name="q"
-              defaultValue={q}
-              placeholder="이름, 연락처, 서비스로 검색"
-              className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 font-bold outline-none focus:border-green-500"
-            />
+  <form className="grid gap-3 md:grid-cols-[1fr_220px_120px]">
+    <input
+      name="q"
+      defaultValue={q}
+      placeholder="이름, 연락처, 서비스로 검색"
+      className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 font-bold outline-none focus:border-green-500"
+    />
 
-            <Button type="submit" className="md:w-32">
-              검색
-            </Button>
-          </form>
-        </Card>
+    <select
+      name="status"
+      defaultValue={statusFilter}
+      className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 font-bold outline-none focus:border-green-500"
+    >
+      <option value="">전체 상태</option>
+
+      {statuses.map((status) => (
+        <option key={status} value={status}>
+          {status}
+        </option>
+      ))}
+    </select>
+
+    <Button type="submit" className="w-full">
+      검색
+    </Button>
+  </form>
+
+  {(q || statusFilter) && (
+    <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+      <p className="text-sm font-bold text-gray-600">
+        검색 결과 {filteredList.length}건
+      </p>
+
+      <Link
+        href="/admin"
+        className="text-sm font-black text-green-700 hover:underline"
+      >
+        필터 초기화
+      </Link>
+    </div>
+  )}
+</Card>
 
         <div className="mt-6 space-y-5">
-          {list.map((item: any) => (
+          {filteredList.map((item: any) => (
             <Card key={item.id} className="p-6">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
@@ -182,7 +224,7 @@ export default async function AdminPage({
             </Card>
           ))}
 
-          {list.length === 0 && (
+          {filteredList.length === 0 && (
             <Card className="p-10 text-center">
               <p className="font-bold text-gray-500">검색 결과가 없습니다.</p>
             </Card>

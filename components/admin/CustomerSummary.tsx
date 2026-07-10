@@ -1,53 +1,73 @@
-export default function CustomerSummary({
-  item,
-  assignedName,
+type ConsultationLog = {
+  id: string;
+  content: string | null;
+  created_by: string | null;
+  created_at: string;
+};
+
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat("ko-KR", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(value));
+}
+
+export default function ConsultationTimeline({
+  logs,
 }: {
-  item: any;
-  assignedName: string;
+  logs: ConsultationLog[];
 }) {
-  const payout = Number(item.payout_amount ?? 0).toLocaleString();
+  if (logs.length === 0) {
+    return (
+      <div className="rounded-2xl bg-gray-50 p-8 text-center">
+        <p className="font-bold text-gray-500">
+          아직 등록된 상담 이력이 없습니다.
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div className="mt-6 rounded-[32px] bg-gray-950 p-6 text-white">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="text-sm font-black text-green-400">CUSTOMER</p>
-          <h1 className="mt-2 text-4xl font-black">{item.name}</h1>
+    <ol className="relative space-y-0">
+      {logs.map((log, index) => {
+        const isLast = index === logs.length - 1;
 
-          <a
-            href={`tel:${item.phone}`}
-            className="mt-3 block text-2xl font-black text-green-400"
-          >
-            📞 {item.phone}
-          </a>
-        </div>
+        return (
+          <li key={log.id} className="relative flex gap-4 pb-7">
+            {!isLast && (
+              <span
+                aria-hidden="true"
+                className="absolute left-[11px] top-7 h-full w-0.5 bg-gray-200"
+              />
+            )}
 
-        <span className="rounded-full bg-green-500 px-5 py-3 font-black">
-          {item.status ?? "신규접수"}
-        </span>
-      </div>
+            <span
+              aria-hidden="true"
+              className="relative z-10 mt-1.5 h-6 w-6 shrink-0 rounded-full border-4 border-white bg-green-500 ring-1 ring-green-200"
+            />
 
-      <div className="mt-8 grid gap-4 text-sm font-bold md:grid-cols-4">
-        <div className="rounded-2xl bg-white/10 p-4">
-          <p className="text-gray-400">서비스</p>
-          <p className="mt-1 text-lg">{item.service || "-"}</p>
-        </div>
+            <article className="min-w-0 flex-1 rounded-2xl bg-gray-50 p-5 ring-1 ring-gray-100">
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                <p className="font-black text-gray-950">
+                  {log.created_by || "관리자"}
+                </p>
 
-        <div className="rounded-2xl bg-white/10 p-4">
-          <p className="text-gray-400">통신사</p>
-          <p className="mt-1 text-lg">{item.carrier || "-"}</p>
-        </div>
+                <time className="text-sm font-bold text-gray-500">
+                  {formatDate(log.created_at)}
+                </time>
+              </div>
 
-        <div className="rounded-2xl bg-white/10 p-4">
-          <p className="text-gray-400">담당자</p>
-          <p className="mt-1 text-lg">{assignedName}</p>
-        </div>
-
-        <div className="rounded-2xl bg-white/10 p-4">
-          <p className="text-gray-400">지급액</p>
-          <p className="mt-1 text-lg">{payout}원</p>
-        </div>
-      </div>
-    </div>
+              <p className="mt-3 whitespace-pre-wrap break-words font-medium leading-7 text-gray-700">
+                {log.content || "기록 내용이 없습니다."}
+              </p>
+            </article>
+          </li>
+        );
+      })}
+    </ol>
   );
 }
