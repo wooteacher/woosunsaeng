@@ -63,20 +63,38 @@ export async function getAdminDashboard(q = "", role = "super_admin", staffId = 
   }
 
   if (q) {
-  const safeQuery = q.replace(/[%_,]/g, "");
+  const safeQuery = q.replace(/[%_,()]/g, "").trim();
 
-  query = query.or(
-    [
-      `name.ilike.%${safeQuery}%`,
-      `phone.ilike.%${safeQuery}%`,
-      `service.ilike.%${safeQuery}%`,
-      `carrier.ilike.%${safeQuery}%`,
-      `status.ilike.%${safeQuery}%`,
-      `desired_speed.ilike.%${safeQuery}%`,
-      `desired_tv_plan.ilike.%${safeQuery}%`,
-    ].join(",")
-  );
- }
+if (safeQuery) {
+  const { data: matchedStaff, error: staffSearchError } =
+    await supabaseAdmin
+      .from("staff_members")
+      .select("id")
+      .ilike("name", `%${safeQuery}%`)
+      .eq("active", true);
+
+   if (staffSearchError) {
+     console.error("담당자 검색 오류:", staffSearchError);
+   }
+
+   const staffIds = (matchedStaff ?? []).map((staff) => staff.id);
+
+   const searchFilters = [
+    `name.ilike.%${safeQuery}%`,
+    `phone.ilike.%${safeQuery}%`,
+    `service.ilike.%${safeQuery}%`,
+    `carrier.ilike.%${safeQuery}%`,
+    `status.ilike.%${safeQuery}%`,
+    `desired_speed.ilike.%${safeQuery}%`,
+    `desired_tv_plan.ilike.%${safeQuery}%`,
+    ];
+
+    if (staffIds.length > 0) {
+      searchFilters.push(`assigned_to.in.(${staffIds.join(",")})`);
+    }
+
+    query = query.or(searchFilters.join(","));
+  }
 
   const { data } = await query;
   const list = data ?? [];
