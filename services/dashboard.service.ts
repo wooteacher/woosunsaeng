@@ -62,7 +62,6 @@ export async function getAdminDashboard(q = "", role = "super_admin", staffId = 
     query = query.eq("assigned_to", staffId);
   }
 
-  if (q) {
   const safeQuery = q.replace(/[%_,()]/g, "").trim();
 
 if (safeQuery) {
