@@ -63,8 +63,20 @@ export async function getAdminDashboard(q = "", role = "super_admin", staffId = 
   }
 
   if (q) {
-    query = query.or(`name.ilike.%${q}%,phone.ilike.%${q}%,service.ilike.%${q}%`);
-  }
+  const safeQuery = q.replace(/[%_,]/g, "");
+
+  query = query.or(
+    [
+      `name.ilike.%${safeQuery}%`,
+      `phone.ilike.%${safeQuery}%`,
+      `service.ilike.%${safeQuery}%`,
+      `carrier.ilike.%${safeQuery}%`,
+      `status.ilike.%${safeQuery}%`,
+      `desired_speed.ilike.%${safeQuery}%`,
+      `desired_tv_plan.ilike.%${safeQuery}%`,
+    ].join(",")
+  );
+ }
 
   const { data } = await query;
   const list = data ?? [];
