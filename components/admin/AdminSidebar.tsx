@@ -10,6 +10,11 @@ const allMenus = [
     roles: ["super_admin", "manager", "staff"],
   },
   {
+    href: "/admin/callbacks",
+    label: "☎️ 재통화관리",
+    roles: ["super_admin", "manager", "staff"],
+  },
+  {
     href: "/admin/products",
     label: "📦 상품관리",
     roles: ["super_admin", "manager"],

@@ -16,7 +16,10 @@ export default function TodayTodo({ kpi }: { kpi: any }) {
           <p className="mt-2 text-3xl font-black">{kpi.paymentTodos}건</p>
         </Link>
 
-        <Link href="/admin" className="rounded-2xl bg-yellow-50 p-5">
+        <Link
+          href="/admin/callbacks"
+          className="rounded-2xl bg-yellow-50 p-5"
+          >
           <p className="font-black text-yellow-700">☎️ 오늘 재통화</p>
           <p className="mt-2 text-3xl font-black">{kpi.todayCallbacks}건</p>
         </Link>
