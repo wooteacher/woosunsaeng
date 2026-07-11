@@ -1,14 +1,24 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+
+type SectionProps = {
+  children: ReactNode;
+  className?: string;
+};
 
 export default function Section({
   children,
   className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+}: SectionProps) {
   return (
-    <section className={`py-24 sm:py-28 ${className}`}>
+    <section
+      className={[
+        "py-14",
+        "sm:py-18",
+        "lg:py-22",
+        "xl:py-24",
+        className,
+      ].join(" ")}
+    >
       {children}
     </section>
   );

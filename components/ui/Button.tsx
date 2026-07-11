@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import type {
+  ButtonHTMLAttributes,
+  ReactNode,
+} from "react";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
@@ -8,14 +11,18 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string;
 };
 
+
 const styles = {
   primary:
-    "bg-green-600 text-white hover:bg-green-700 shadow-lg shadow-green-100",
+    "bg-green-600 text-white shadow-lg shadow-green-200 hover:bg-green-700",
+
   secondary:
-    "bg-gray-900 text-white hover:bg-black shadow-lg shadow-gray-200",
+    "bg-gray-950 text-white shadow-lg shadow-gray-900/20 hover:bg-black",
+
   outline:
-    "border-2 border-green-600 bg-white text-green-700 hover:bg-green-50",
+    "border border-gray-200 bg-white text-gray-900 shadow-sm hover:border-green-300 hover:bg-green-50 hover:text-green-700",
 };
+
 
 export default function Button({
   children,
@@ -23,23 +30,45 @@ export default function Button({
   type = "button",
   variant = "primary",
   className = "",
+  disabled,
   ...props
 }: ButtonProps) {
-  const base =
-    "inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-4 font-black transition";
 
-  const finalClass = `${base} ${styles[variant]} ${className}`;
+  const classes = [
+    "inline-flex items-center justify-center gap-2",
+    "min-h-14 rounded-2xl px-6 py-4",
+    "text-base font-black tracking-tight",
+    "transition-all duration-200",
+    "hover:-translate-y-0.5",
+    "focus-visible:outline-none",
+    "focus-visible:ring-4 focus-visible:ring-green-500/20",
+    "disabled:pointer-events-none",
+    "disabled:opacity-50",
+    styles[variant],
+    className,
+  ].join(" ");
+
 
   if (href) {
     return (
-      <Link href={href} className={finalClass}>
+      <Link
+        href={href}
+        className={classes}
+        aria-disabled={disabled || undefined}
+      >
         {children}
       </Link>
     );
   }
 
+
   return (
-    <button type={type} className={finalClass} {...props}>
+    <button
+      type={type}
+      disabled={disabled}
+      className={classes}
+      {...props}
+    >
       {children}
     </button>
   );
