@@ -1,166 +1,118 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
   ArrowRight,
-  CheckCircle2,
-  Clock3,
   Phone,
-  Sparkles,
 } from "lucide-react";
 
 import Container from "@/components/ui/Container";
 import { SITE } from "@/lib/site";
 
-const benefits = [
-  "무료 상담",
-  "설치 후 바로 지급",
-  "조건 비교 안내",
-];
-
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-white to-emerald-50/40">
-      <div className="pointer-events-none absolute -left-28 top-10 h-64 w-64 rounded-full bg-green-200/40 blur-3xl" />
-      <div className="pointer-events-none absolute -right-28 bottom-0 h-72 w-72 rounded-full bg-emerald-100/50 blur-3xl" />
+    <section className="relative overflow-hidden border-b border-slate-100 bg-white">
+      <div className="pointer-events-none absolute -left-40 top-12 size-[360px] rounded-full bg-emerald-100/45 blur-3xl" />
+      <div className="pointer-events-none absolute -right-36 top-10 size-[420px] rounded-full bg-emerald-100/55 blur-3xl" />
 
       <Container>
-        <div className="grid items-center gap-8 py-8 sm:py-12 lg:grid-cols-[1fr_0.75fr] lg:gap-10 lg:py-14">
+        <div className="grid min-h-[540px] items-center gap-10 py-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:py-14">
+          <div className="relative z-10 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-4 py-2 shadow-sm">
+              <Image
+                src="/logo/wooteacher-mark.svg"
+                alt=""
+                width={20}
+                height={20}
+                aria-hidden="true"
+              />
 
-          <div className="text-center lg:text-left">
-
-            <span className="inline-flex items-center gap-2 rounded-full border border-green-200 bg-white px-4 py-2 text-xs font-black text-green-700 shadow-sm sm:text-sm">
-              <Sparkles size={16} />
-              우리가 선택한 생활서비스
-            </span>
-
-
-            <h1 className="mt-5 text-[36px] font-black leading-[1.15] tracking-[-0.055em] text-gray-950 sm:text-5xl lg:text-[56px]">
-              인터넷과 렌탈,
-              <br />
-              <span className="text-green-600">
-                우선생이 쉽게
+              <span className="text-sm font-black text-emerald-700">
+                우리가 선택한 생활서비스
               </span>
+            </div>
+
+            <h1 className="mt-6 break-keep text-[40px] font-black leading-[1.1] tracking-[-0.055em] text-slate-950 sm:text-5xl lg:text-[60px]">
+              복잡한 비교는
               <br />
-              안내합니다.
+
+              <span className="text-emerald-600">
+                우선생이 대신합니다
+              </span>
             </h1>
 
-
-            <p className="mx-auto mt-4 max-w-lg text-base font-semibold leading-7 text-gray-600 sm:text-lg lg:mx-0">
-              복잡한 비교는 줄이고,
-              고객님에게 맞는 조건만 빠르게 안내해드립니다.
+            <p className="mx-auto mt-5 max-w-xl break-keep text-base font-semibold leading-8 text-slate-600 sm:text-lg lg:mx-0">
+              인터넷도, 렌탈도 어려운 상품은 외우실 필요 없습니다.
+              <br className="hidden sm:block" />
+              고객님께 맞는 조건부터 쉽고 편하게 안내해드립니다.
             </p>
 
+            <a
+              href={SITE.phoneHref}
+              className="mt-8 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-8 py-4 text-base font-black text-white shadow-[0_14px_34px_rgba(5,150,105,0.22)] transition duration-200 hover:-translate-y-0.5 hover:bg-emerald-700 sm:w-auto"
+            >
+              <Phone
+                size={20}
+                strokeWidth={2.5}
+              />
 
-            <div className="mt-5 flex flex-wrap justify-center gap-2 lg:justify-start">
-              {benefits.map((item) => (
-                <span
-                  key={item}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-gray-100 bg-white px-3 py-2 text-xs font-black text-gray-800 shadow-sm sm:text-sm"
-                >
-                  <CheckCircle2
-                    size={15}
-                    className="text-green-600"
-                  />
-                  {item}
-                </span>
-              ))}
+              전화로 물어보기
+            </a>
+
+            <div className="mt-4 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
+              <Link
+                href="/internet"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-900 transition duration-200 hover:border-emerald-300 hover:bg-emerald-50"
+              >
+                인터넷 요금 비교
+
+                <ArrowRight
+                  size={17}
+                  strokeWidth={2.4}
+                />
+              </Link>
+
+              <Link
+                href="/rental"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-900 transition duration-200 hover:border-emerald-300 hover:bg-emerald-50"
+              >
+                렌탈 상품 보기
+
+                <ArrowRight
+                  size={17}
+                  strokeWidth={2.4}
+                />
+              </Link>
             </div>
 
-
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:justify-start">
-
-              <a
-                href="#estimate"
-                className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-green-600 px-7 py-4 font-black text-white shadow-lg shadow-green-200 transition hover:-translate-y-0.5 hover:bg-green-700"
-              >
-                30초 무료 상담
-                <ArrowRight size={19} />
-              </a>
-
-
-              <a
-                href={SITE.phoneHref}
-                className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border border-gray-200 bg-white px-7 py-4 font-black text-gray-950 transition hover:border-green-300 hover:bg-green-50"
-              >
-                <Phone size={19} />
-                전화 상담
-              </a>
-
-            </div>
-
-
-            <div className="mt-5 flex flex-col items-center gap-2 text-sm font-bold text-gray-600 sm:flex-row lg:justify-start">
-
-              <span className="flex items-center gap-2 text-green-700">
-                <span className="relative flex h-3 w-3">
-                  <span className="absolute h-full w-full animate-ping rounded-full bg-green-400 opacity-70" />
-                  <span className="relative h-3 w-3 rounded-full bg-green-600" />
-                </span>
-
-                {SITE.consultationStatus}
+            <div className="mt-5 flex items-center justify-center gap-2 text-sm font-bold text-emerald-700 lg:justify-start">
+              <span className="relative flex size-2.5">
+                <span className="absolute size-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                <span className="relative size-2.5 rounded-full bg-emerald-600" />
               </span>
 
-
-              <span className="flex items-center gap-2">
-                <Clock3
-                  size={16}
-                  className="text-green-600"
-                />
-                평균 상담 연결 {SITE.averageTime}
-              </span>
-
+              {SITE.consultationStatus}
+              <span className="text-slate-300">·</span>
+              평균 연결 {SITE.averageTime}
             </div>
-
           </div>
 
+          <div className="relative mx-auto w-full max-w-[540px]">
+            <div className="pointer-events-none absolute inset-x-10 bottom-4 h-24 rounded-full bg-emerald-200/45 blur-3xl" />
 
-          <div className="mx-auto w-full max-w-[430px]">
+            <div className="relative flex min-h-[440px] items-end justify-center overflow-hidden rounded-[38px] bg-gradient-to-br from-emerald-50 via-white to-emerald-50/60 sm:min-h-[500px]">
+              <div className="pointer-events-none absolute left-1/2 top-1/2 size-[380px] -translate-x-1/2 -translate-y-1/2 rounded-[42%] bg-emerald-100/55 sm:size-[440px]" />
 
-            <div className="overflow-hidden rounded-[30px] border border-green-100 bg-white p-2 shadow-xl shadow-green-100/60">
-
-              <div className="overflow-hidden rounded-[24px] bg-gradient-to-br from-green-50 to-white">
-
-                <Image
-                  src="/hero/wooteacher-teacher.png"
-                  alt="우선생 상담 안내"
-                  width={640}
-                  height={640}
-                  priority
-                  sizes="(max-width:1024px) 100vw,430px"
-                  className="w-full object-contain"
-                />
-
-              </div>
-
-
-              <div className="grid grid-cols-2 gap-2 p-2">
-
-                <div className="rounded-2xl bg-gray-50 px-3 py-3 text-center">
-                  <p className="text-xs font-bold text-gray-500">
-                    상담
-                  </p>
-
-                  <p className="mt-1 text-sm font-black text-gray-950">
-                    무료
-                  </p>
-                </div>
-
-
-                <div className="rounded-2xl bg-green-50 px-3 py-3 text-center">
-                  <p className="text-xs font-bold text-green-700">
-                    연결 시간
-                  </p>
-
-                  <p className="mt-1 text-sm font-black text-green-800">
-                    {SITE.averageTime}
-                  </p>
-                </div>
-
-              </div>
-
+              <Image
+                src="/hero/hero-person.png"
+                alt="인터넷과 렌탈 상품을 안내하는 우선생"
+                width={720}
+                height={760}
+                priority
+                sizes="(max-width: 1024px) 100vw, 540px"
+                className="relative z-10 h-auto max-h-[520px] w-auto max-w-full object-contain"
+              />
             </div>
-
           </div>
-
         </div>
       </Container>
     </section>

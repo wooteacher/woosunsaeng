@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">우선생 아이콘</title>
+  <desc id="desc">미소 짓는 집 모양의 우선생 브랜드 아이콘</desc>
+  <path d="M20 57.5 64 20l44 37.5" fill="none" stroke="#16A34A" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 54v49h72V54" fill="none" stroke="#16A34A" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="49" cy="66" r="5.5" fill="#16A34A"/>
+  <circle cx="79" cy="66" r="5.5" fill="#16A34A"/>
+  <path d="M47 82c4.5 7 10.2 10.5 17 10.5S76.5 89 81 82" fill="none" stroke="#16A34A" stroke-width="8" stroke-linecap="round"/>
+</svg>

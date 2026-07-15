@@ -6,7 +6,7 @@ export const SITE = {
   phone: "032-422-8010",
   phoneHref: "tel:0324228010",
 
-  kakaoUrl: "#",
+  kakaoUrl: "여기에_카카오채널_채팅주소",
 
   rentalUrl: "https://woosoo.vip-rental.com/categ/1057",
   rentalMallUrl: "https://woosoo.vip-rental.com/categ/1057",

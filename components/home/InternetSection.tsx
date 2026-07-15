@@ -10,6 +10,7 @@ import {
   Wifi,
 } from "lucide-react";
 
+import { SITE } from "@/lib/site";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -57,6 +58,40 @@ const speeds = [
 type ProductType = "internet" | "internet-tv";
 
 export default function InternetSection() {
+  const handleChatConsultation = async () => {
+  const productName =
+    productType === "internet-tv"
+      ? "인터넷 + TV"
+      : "인터넷 단독";
+
+  const message = [
+    "안녕하세요. 인터넷 상담을 원합니다.",
+    "",
+    `통신사: ${selectedCarrier.name}`,
+    `속도: ${selectedSpeed.name}`,
+    `상품: ${productName}`,
+  ].join("\n");
+
+  try {
+    await navigator.clipboard.writeText(message);
+  } catch {
+    console.warn("상담 내용을 복사하지 못했습니다.");
+  }
+
+  if (!SITE.kakaoUrl || SITE.kakaoUrl === "#") {
+    window.alert(
+      "카카오 상담 주소가 아직 연결되지 않았습니다."
+    );
+    return;
+  }
+
+  window.open(
+    SITE.kakaoUrl,
+    "_blank",
+    "noopener,noreferrer"
+  );
+};
+
   const [carrier, setCarrier] = useState("KT");
   const [speed, setSpeed] = useState("500M");
   const [productType, setProductType] =
@@ -265,13 +300,18 @@ export default function InternetSection() {
 
 
                 <div className="border-t border-white/10 bg-white/[0.04] p-5">
-                  <a
-                    href="#estimate"
-                    className="flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-green-500 px-6 py-4 text-base font-black text-white transition hover:bg-green-600"
-                  >
-                    선택 상담 신청
-                    <ArrowRight size={19} />
-                  </a>
+                  <button
+         type="button"
+         onClick={handleChatConsultation}
+          className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-green-500 px-6 py-4 text-base font-black text-white transition hover:-translate-y-0.5 hover:bg-green-600"
+        >
+          선택한 내용으로 채팅 상담
+          <ArrowRight size={19} />
+        </button>
+
+<p className="mt-3 text-center text-xs font-semibold leading-5 text-gray-400">
+  선택 내용이 자동으로 복사됩니다. 채팅창에 붙여넣어 주세요.
+</p>
 
                   <p className="mt-3 text-center text-xs font-semibold text-gray-400">
                     정확한 요금은 상담 후 안내됩니다.
