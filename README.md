@@ -1,16 +1,14 @@
-# 우선생 렌탈 페이지
+# 우선생 고객센터 페이지
 
 ## 포함 파일
 
-- `app/rental/page.tsx`
-- `components/rental/RentalCatalog.tsx`
-- `data/rentalProducts.ts`
+- `app/customer-center/page.tsx`
+- `components/customer-center/CustomerCenterPage.tsx`
+- `data/customerCenterFaqs.ts`
 
-## 적용
+## 적용 방법
 
 압축을 풀고 프로젝트 동일 경로에 덮어씁니다.
-
-그 다음:
 
 ```cmd
 npm run build
@@ -20,14 +18,17 @@ npm run build
 
 ```cmd
 git add -A
-git commit -m "Add rental page"
+git commit -m "Add customer center page"
 git push origin main
 ```
 
-## 참고
+## 추후 교체할 값
 
-`data/rentalProducts.ts`의 상품과 가격은 초기 UI 확인용 예시 데이터입니다.
-실제 운영 전 최신 제휴 렌탈료, 약정기간, 카드 할인, 관리방식으로 교체해야 합니다.
+`components/customer-center/CustomerCenterPage.tsx`
 
-상담 접수는 기존 Supabase `consultations` 테이블의
-`name`, `phone`, `service` 컬럼을 사용합니다.
+- `PHONE_NUMBER`
+- `PHONE_HREF`
+- 카카오 채널 링크
+- 실제 상담 운영시간
+
+사업자 및 고객센터 정보 확정 후 수정하면 됩니다.
