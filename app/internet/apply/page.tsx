@@ -31,24 +31,6 @@ import {
 
 type PaymentMethod = "account" | "card";
 
-type AddressResult = {
-  zonecode: string;
-  address: string;
-  buildingName?: string;
-};
-
-declare global {
-  interface Window {
-    daum?: {
-      Postcode: new (options: {
-        oncomplete: (data: AddressResult) => void;
-      }) => {
-        open: () => void;
-      };
-    };
-  }
-}
-
 type FormState = {
   applicantName: string;
   birthDate: string;
@@ -301,9 +283,14 @@ function ApplyPageContent() {
         setForm((current) => ({
           ...current,
           postcode: data.zonecode,
-          address: data.buildingName
-            ? `${data.address} (${data.buildingName})`
-            : data.address,
+          address: (() => {
+            const baseAddress =
+              data.roadAddress || data.address || data.jibunAddress || "";
+
+            return data.buildingName
+              ? `${baseAddress} (${data.buildingName})`
+              : baseAddress;
+          })(),
         }));
         setErrorMessage("");
       },

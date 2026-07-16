@@ -278,14 +278,13 @@ export default function SelfApplyForm({
 
               <div className="mt-5">
                 <AddressSearch
-                  zonecode={form.zonecode}
+                  postcode={form.zonecode}
                   address={form.address}
                   detailAddress={form.detailAddress}
-                  onChange={(value) =>
-                    setForm((current) => ({
-                      ...current,
-                      ...value,
-                    }))
+                  onPostcodeChange={(value) => update("zonecode", value)}
+                  onAddressChange={(value) => update("address", value)}
+                  onDetailAddressChange={(value) =>
+                    update("detailAddress", value)
                   }
                 />
               </div>

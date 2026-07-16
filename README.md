@@ -1,16 +1,8 @@
-# 셀프가입 최종 마감본
+# Daum postcode type conflict fix
 
-교체 경로:
+교체 파일:
+- components/internet/AddressSearch.tsx
+- app/internet/apply/page.tsx
 
-`app/internet/apply/page.tsx`
-
-기존 API route, 암호화 파일, Supabase 테이블은 그대로 유지합니다.
-
-추가 개선:
-- 모바일 상단 진행률 고정
-- 입력 자동저장(localStorage)
-- 완료 시 임시저장 자동 삭제
-- 초기 로딩 화면
-- 카드/입력/버튼 여백 통일
-- 오류 안내 강화
-- 완료 화면 정리
+두 파일 중 `window.daum` 전역 타입 선언은 AddressSearch.tsx 한 곳에만 존재합니다.
+적용 후 `npm run build`로 확인하세요.
