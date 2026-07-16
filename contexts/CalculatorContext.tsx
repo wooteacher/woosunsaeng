@@ -30,8 +30,13 @@ type CalculatorContextValue = {
   monthlyBasePrice: number;
   mobileDiscount: number;
   cardDiscount: number;
+  appliedMobileDiscount: number;
+  appliedCardDiscount: number;
   estimatedMonthlyPrice: number;
   reward: RewardInfo | null;
+
+  useMobileDiscount: boolean;
+  useCardDiscount: boolean;
 
   hasProducts: boolean;
 
@@ -39,6 +44,11 @@ type CalculatorContextValue = {
   selectInternetPlan: (plan: InternetPlan) => void;
   selectTvPlan: (plan: TvPlan) => void;
   clearTvPlan: () => void;
+
+  toggleMobileDiscount: () => void;
+  toggleCardDiscount: () => void;
+  setUseMobileDiscount: (value: boolean) => void;
+  setUseCardDiscount: (value: boolean) => void;
 };
 
 const CalculatorContext =
@@ -62,11 +72,13 @@ function getDefaultTvPlan(data: CarrierData) {
 
 const initialCarrier: Carrier = "KT";
 
-const initialInternetPlan =
-  getDefaultInternetPlan(internetData[initialCarrier]);
+const initialInternetPlan = getDefaultInternetPlan(
+  internetData[initialCarrier],
+);
 
-const initialTvPlan =
-  getDefaultTvPlan(internetData[initialCarrier]);
+const initialTvPlan = getDefaultTvPlan(
+  internetData[initialCarrier],
+);
 
 export function CalculatorProvider({
   children,
@@ -76,25 +88,30 @@ export function CalculatorProvider({
   const [carrier, setCarrier] =
     useState<Carrier>(initialCarrier);
 
-  const [internetPlanId, setInternetPlanId] =
-    useState(initialInternetPlan?.id ?? "");
+  const [internetPlanId, setInternetPlanId] = useState(
+    initialInternetPlan?.id ?? "",
+  );
 
-  const [tvPlanId, setTvPlanId] =
-    useState<string | null>(
-      initialTvPlan?.id ?? null
-    );
+  const [tvPlanId, setTvPlanId] = useState<string | null>(
+    initialTvPlan?.id ?? null,
+  );
+
+  // 할인은 최초 진입 시 모두 적용
+  const [useMobileDiscount, setUseMobileDiscount] =
+    useState(true);
+
+  const [useCardDiscount, setUseCardDiscount] =
+    useState(true);
 
   const carrierData = internetData[carrier];
 
-  const internetPlan =
-    useMemo<InternetPlan | null>(() => {
-      return (
-        carrierData.internetPlans.find(
-          (plan) => plan.id === internetPlanId
-        ) ??
-        getDefaultInternetPlan(carrierData)
-      );
-    }, [carrierData, internetPlanId]);
+  const internetPlan = useMemo<InternetPlan | null>(() => {
+    return (
+      carrierData.internetPlans.find(
+        (plan) => plan.id === internetPlanId,
+      ) ?? getDefaultInternetPlan(carrierData)
+    );
+  }, [carrierData, internetPlanId]);
 
   const tvPlan = useMemo<TvPlan | null>(() => {
     if (!tvPlanId) {
@@ -103,44 +120,52 @@ export function CalculatorProvider({
 
     return (
       carrierData.tvPlans.find(
-        (plan) => plan.id === tvPlanId
+        (plan) => plan.id === tvPlanId,
       ) ?? null
     );
   }, [carrierData.tvPlans, tvPlanId]);
 
-  const bundleRule =
-    useMemo<BundleRule | null>(() => {
-      if (!internetPlan || !tvPlan) {
-        return null;
-      }
+  const bundleRule = useMemo<BundleRule | null>(() => {
+    if (!internetPlan || !tvPlan) {
+      return null;
+    }
 
-      return (
-        getBundleRule(
-          carrier,
-          internetPlan.speed,
-          tvPlan.id
-        ) ?? null
-      );
-    }, [carrier, internetPlan, tvPlan]);
+    return (
+      getBundleRule(
+        carrier,
+        internetPlan.speed,
+        tvPlan.id,
+      ) ?? null
+    );
+  }, [carrier, internetPlan, tvPlan]);
 
   const monthlyBasePrice =
     bundleRule?.bundleMonthlyPrice ??
     internetPlan?.monthlyPrice ??
     0;
 
+  // 원래 적용 가능한 할인 금액
   const mobileDiscount =
     bundleRule?.mobileDiscount ??
     internetPlan?.mobileDiscount ??
     0;
 
-  const cardDiscount =
-    carrierData.maxCardDiscount;
+  const cardDiscount = carrierData.maxCardDiscount;
+
+  // 사용자가 선택한 실제 적용 할인 금액
+  const appliedMobileDiscount = useMobileDiscount
+    ? mobileDiscount
+    : 0;
+
+  const appliedCardDiscount = useCardDiscount
+    ? cardDiscount
+    : 0;
 
   const estimatedMonthlyPrice = Math.max(
     monthlyBasePrice -
-      mobileDiscount -
-      cardDiscount,
-    0
+      appliedMobileDiscount -
+      appliedCardDiscount,
+    0,
   );
 
   const reward =
@@ -154,23 +179,16 @@ export function CalculatorProvider({
     const nextInternetPlan =
       getDefaultInternetPlan(nextData);
 
-    const nextTvPlan =
-      getDefaultTvPlan(nextData);
+    const nextTvPlan = getDefaultTvPlan(nextData);
 
     setCarrier(nextCarrier);
+    setInternetPlanId(nextInternetPlan?.id ?? "");
+    setTvPlanId(nextTvPlan?.id ?? null);
 
-    setInternetPlanId(
-      nextInternetPlan?.id ?? ""
-    );
-
-    setTvPlanId(
-      nextTvPlan?.id ?? null
-    );
+    // 통신사를 변경해도 할인 선택 상태는 유지
   }
 
-  function selectInternetPlan(
-    plan: InternetPlan
-  ) {
+  function selectInternetPlan(plan: InternetPlan) {
     setInternetPlanId(plan.id);
   }
 
@@ -180,6 +198,14 @@ export function CalculatorProvider({
 
   function clearTvPlan() {
     setTvPlanId(null);
+  }
+
+  function toggleMobileDiscount() {
+    setUseMobileDiscount((current) => !current);
+  }
+
+  function toggleCardDiscount() {
+    setUseCardDiscount((current) => !current);
   }
 
   const value = useMemo<CalculatorContextValue>(
@@ -194,8 +220,13 @@ export function CalculatorProvider({
       monthlyBasePrice,
       mobileDiscount,
       cardDiscount,
+      appliedMobileDiscount,
+      appliedCardDiscount,
       estimatedMonthlyPrice,
       reward,
+
+      useMobileDiscount,
+      useCardDiscount,
 
       hasProducts:
         carrierData.internetPlans.length > 0,
@@ -204,6 +235,11 @@ export function CalculatorProvider({
       selectInternetPlan,
       selectTvPlan,
       clearTvPlan,
+
+      toggleMobileDiscount,
+      toggleCardDiscount,
+      setUseMobileDiscount,
+      setUseCardDiscount,
     }),
     [
       carrier,
@@ -214,9 +250,13 @@ export function CalculatorProvider({
       monthlyBasePrice,
       mobileDiscount,
       cardDiscount,
+      appliedMobileDiscount,
+      appliedCardDiscount,
       estimatedMonthlyPrice,
       reward,
-    ]
+      useMobileDiscount,
+      useCardDiscount,
+    ],
   );
 
   return (
@@ -231,7 +271,7 @@ export function useCalculator() {
 
   if (!context) {
     throw new Error(
-      "useCalculator는 CalculatorProvider 내부에서 사용해야 합니다."
+      "useCalculator는 CalculatorProvider 내부에서 사용해야 합니다.",
     );
   }
 

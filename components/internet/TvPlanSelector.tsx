@@ -44,25 +44,11 @@ function getChannelCount(plan: unknown) {
       ? data.name.replace(/\s/g, "")
       : "";
 
-  if (name.includes("디즈니+모든G")) {
-    return 250;
-  }
-
-  if (name.includes("모든G")) {
-    return 250;
-  }
-
-  if (name.includes("에센스")) {
-    return 260;
-  }
-
-  if (name.includes("베이직")) {
-    return 235;
-  }
-
-  if (name.includes("라이트")) {
-    return 240;
-  }
+  if (name.includes("디즈니+모든G")) return 250;
+  if (name.includes("모든G")) return 250;
+  if (name.includes("에센스")) return 260;
+  if (name.includes("베이직")) return 235;
+  if (name.includes("라이트")) return 240;
 
   return null;
 }
@@ -126,34 +112,28 @@ export default function TvPlanSelector() {
   } = useCalculator();
 
   return (
-    <section className="grid gap-5 xl:grid-cols-[165px_minmax(0,1fr)] xl:items-start">
+    <section className="grid gap-5 xl:grid-cols-[180px_minmax(0,1fr)] xl:items-start">
       <div>
-        <p className="text-sm font-bold text-emerald-600">
-          STEP 3
-        </p>
-
-        <h2 className="mt-2 break-keep text-2xl font-black tracking-[-0.035em] text-slate-950">
-          TV 채널 선택
+        <h2 className="break-keep text-[22px] font-black tracking-[-0.04em] text-slate-950">
+          TV 채널
         </h2>
 
-        <p className="mt-3 break-keep text-sm leading-6 text-slate-500">
+        <p className="mt-2 break-keep text-sm leading-6 text-slate-500">
           원하는 채널 구성을 선택해주세요.
         </p>
       </div>
 
-      <div
-        className="grid min-w-0 grid-cols-1 gap-2.5 sm:grid-cols-2 xl:grid-flow-col xl:grid-rows-1 xl:auto-cols-fr"
-      >
+      <div className="grid min-w-0 grid-cols-1 gap-2.5 sm:grid-cols-2 xl:grid-flow-col xl:auto-cols-fr xl:grid-rows-1">
         <SelectionCard
           title="선택 안함"
           subtitle="인터넷만"
-          description="TV 없이 가입"
-          infoLabel="단독 가입"
-          priceLabel="TV 월요금 0원"
+          description="TV 없이 이용"
+          infoLabel="인터넷 단독"
+          priceLabel="월 0원"
           selected={!tvPlan}
           onClick={clearTvPlan}
           icon={<Ban size={17} strokeWidth={2.2} />}
-          className="min-h-[190px] min-w-0 p-3"
+          className="min-h-[196px] min-w-0 p-4"
         />
 
         {carrierData.tvPlans.map((plan) => {
@@ -172,9 +152,7 @@ export default function TvPlanSelector() {
               }
               description={content.description}
               infoLabel={content.infoLabel}
-              priceLabel={`TV 월요금 ${formatPrice(
-                plan.monthlyPrice
-              )}원`}
+              priceLabel={`월 ${formatPrice(plan.monthlyPrice)}원`}
               badge={
                 normalizedName.includes("베이직")
                   ? "추천"
@@ -183,7 +161,7 @@ export default function TvPlanSelector() {
               selected={tvPlan?.id === plan.id}
               onClick={() => selectTvPlan(plan)}
               icon={content.icon}
-              className="min-h-[190px] min-w-0 p-3"
+              className="min-h-[196px] min-w-0 p-4"
             />
           );
         })}
