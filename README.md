@@ -1,42 +1,20 @@
-# 우선생 렌탈 페이지 v2
+# 인터넷 가격 데이터 업데이트
 
-## 교체 파일
+교체 파일:
+- lib/internet/data.ts
 
-- `app/rental/page.tsx`
-- `components/rental/RentalPlatform.tsx`
-- `data/rental/products.ts`
+반영 통신사:
+- KT
+- LG U+
+- SK
+- SkyLife
+- LG HelloVision
+- SKB 알뜰
 
-## 이미지 경로
-
-- `public/images/rental/products/README.txt`
-
-이미지가 아직 없어도 모델명 기반 fallback 카드가 표시되므로 빌드 오류나 깨진 이미지가 발생하지 않습니다.
-제휴사 이미지를 안내된 파일명으로 넣으면 자동으로 실제 이미지로 바뀝니다.
-
-## 적용 후
-
-```cmd
+적용 후:
 npm run build
-```
 
-성공하면:
-
-```cmd
-git add -A
-git commit -m "Renew rental page v2"
-git push origin main
-```
-
-## 구현 기능
-
-- 이미지 중심 렌탈 상품 카드
-- 카테고리 선택
-- 버튼형 브랜드 필터
-- 상품 검색
-- 추천순/가격순/최신순
-- BEST/추천/NEW 배지
-- 모델명·재고·특징
-- 월 렌탈료·제휴카드 할인
-- 선택 상품 하단 고정 요약
-- 모바일 바텀시트 상담
-- Supabase `consultations` 저장
+주의:
+- 지역 케이블 계열(HelloVision, SKB 알뜰)은 설치 지역과 망에 따라 실제 조건이 달라질 수 있습니다.
+- 제휴카드 할인은 최대 할인값이며 카드 발급 및 전월 실적 조건이 필요합니다.
+- 추가 혜택과 최종 지급 조건은 상담사가 재안내합니다.
