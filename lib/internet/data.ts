@@ -130,62 +130,66 @@ export const internetData: Record<Carrier, CarrierData> = {
       },
     ],
 
+    // 아래 TV 월요금은 3년 약정·인터넷 결합 기준 TV 이용료에
+    // 기가지니A 셋톱박스 임대료 3,300원을 포함한 고객 안내 금액입니다.
     tvPlans: [
       {
         id: "kt-tv-basic",
         name: "베이직",
         channels: 238,
-        description: "경제적인 기본 채널",
-        monthlyPrice: 12100,
+        description: "기가지니A 포함 · 경제적인 기본 채널",
+        monthlyPrice: 14850,
         recommended: true,
       },
       {
         id: "kt-tv-light",
         name: "라이트",
         channels: 240,
-        description: "인기 채널을 합리적으로",
-        monthlyPrice: 13200,
+        description: "기가지니A 포함 · 인기 채널을 합리적으로",
+        monthlyPrice: 16500,
       },
       {
         id: "kt-tv-essence",
         name: "에센스",
         channels: 263,
-        description: "다양한 프리미엄 채널",
-        monthlyPrice: 16500,
+        description: "기가지니A 포함 · 다양한 프리미엄 채널",
+        monthlyPrice: 18700,
       },
       {
         id: "kt-tv-allg",
         name: "모든G",
         channels: 250,
-        description: "VOD와 다양한 콘텐츠",
+        description: "기가지니A 포함 · VOD와 다양한 콘텐츠",
         monthlyPrice: 19800,
       },
       {
         id: "kt-tv-disney-allg",
         name: "디즈니+ 모든G",
         channels: 250,
-        description: "모든G와 디즈니+ 결합",
-        monthlyPrice: 21500,
+        description: "기가지니A 포함 · 모든G와 디즈니+ 결합",
+        monthlyPrice: 23700,
       },
     ],
 
+    // 총액 = TV 결합 적용 인터넷 요금 + 기가지니A 포함 TV 월요금
+    // 인터넷 부분: 100M 22,000원 / 500M 27,500원 / 1G 33,000원
     bundleRules: createBundleRules("kt", [
       {
         tvPlanId: "kt-tv-basic",
-        prices: { "100M": 34100, "500M": 39600, "1G": 45100 },
-        mobilePrices: { "100M": 30800, "500M": 34100, "1G": 39600 },
+        prices: { "100M": 36850, "500M": 42350, "1G": 47850 },
+        mobilePrices: { "100M": 33550, "500M": 36850, "1G": 42350 },
         rewards: { "100M": 370000, "500M": 450000, "1G": 450000 },
       },
       {
         tvPlanId: "kt-tv-light",
-        prices: { "100M": 35200, "500M": 40700, "1G": 46200 },
-        mobilePrices: { "100M": 31900, "500M": 35200, "1G": 40700 },
+        prices: { "100M": 38500, "500M": 44000, "1G": 49500 },
+        mobilePrices: { "100M": 35200, "500M": 38500, "1G": 44000 },
         rewards: { "100M": 370000, "500M": 450000, "1G": 450000 },
       },
       {
         tvPlanId: "kt-tv-essence",
-        prices: { "100M": 38500, "500M": 44000, "1G": 49500 },
-        mobilePrices: { "100M": 35200, "500M": 38500, "1G": 44000 },
+        prices: { "100M": 40700, "500M": 46200, "1G": 51700 },
+        mobilePrices: { "100M": 37400, "500M": 40700, "1G": 46200 },
         rewards: { "100M": 370000, "500M": 450000, "1G": 450000 },
       },
       {
@@ -196,8 +200,8 @@ export const internetData: Record<Carrier, CarrierData> = {
       },
       {
         tvPlanId: "kt-tv-disney-allg",
-        prices: { "100M": 43500, "500M": 49000, "1G": 54500 },
-        mobilePrices: { "100M": 40200, "500M": 43500, "1G": 49000 },
+        prices: { "100M": 45700, "500M": 51200, "1G": 56700 },
+        mobilePrices: { "100M": 42400, "500M": 45700, "1G": 51200 },
         rewards: { "100M": 370000, "500M": 450000, "1G": 450000 },
       },
     ]),
