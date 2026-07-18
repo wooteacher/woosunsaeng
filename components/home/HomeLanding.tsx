@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import HomeBannerSlider from "@/components/home/HomeBannerSlider";
+import HomeKakaoBanner from "@/components/home/HomeKakaoBanner";
 
 const services = [
   {
@@ -147,6 +148,8 @@ export default function HomeLanding() {
               ))}
             </div>
           </div>
+
+          <HomeKakaoBanner />
         </div>
       </section>
     </>

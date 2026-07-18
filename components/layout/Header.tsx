@@ -295,7 +295,7 @@ export default function Header() {
       <header className="sticky top-0 z-[90] border-b border-slate-200/80 bg-white/95 backdrop-blur-xl">
         <div className="mx-auto flex h-[62px] max-w-[1344px] items-center justify-between px-4 sm:h-[68px] sm:px-6 lg:px-8">
           <div className="flex h-9 shrink-0 items-center">
-            <BrandLogo priority compact />
+            <BrandLogo priority />
           </div>
 
           <nav
