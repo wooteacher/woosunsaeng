@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700">
+  <rect width="900" height="700" rx="42" fill="#F0FDF4"/>
+  <circle cx="790" cy="80" r="210" fill="#BBF7D0" opacity=".7"/>
+  <text x="60" y="100" fill="#15803D" font-family="Arial, sans-serif" font-size="28" font-weight="700">우선생 인터넷 혜택</text>
+  <text x="60" y="190" fill="#0F172A" font-family="Arial, sans-serif" font-size="57" font-weight="800">저렴한 요금부터</text>
+  <text x="60" y="260" fill="#16A34A" font-family="Arial, sans-serif" font-size="57" font-weight="800">최대 혜택까지</text>
+  <text x="60" y="315" fill="#475569" font-family="Arial, sans-serif" font-size="24" font-weight="600">선택하면 예상 요금을 바로 확인해요.</text>
+  <rect x="60" y="360" width="250" height="65" rx="20" fill="#16A34A"/>
+  <text x="185" y="402" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="25" font-weight="700">지금 비교하기</text>
+  <rect x="410" y="365" width="390" height="255" rx="45" fill="white"/>
+  <rect x="465" y="420" width="280" height="54" rx="18" fill="#DCFCE7"/>
+  <rect x="465" y="495" width="280" height="54" rx="18" fill="#F1F5F9"/>
+  <rect x="465" y="570" width="190" height="24" rx="12" fill="#16A34A"/>
+</svg>

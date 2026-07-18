@@ -1,19 +1,27 @@
-# 우선생 인터넷 요금표 - 아정당 기준 최종 교정
+# 우선생 Rental V4
 
-교체 파일:
-- lib/internet/data.ts
+## 교체 파일
+- app/rental/page.tsx
+- components/rental/RentalPlatform.tsx
+- data/rental/products.ts
 
-검증 핵심:
-- KT 500M + 모든G = 51,700원
-- KT 500M + 디즈니+ 모든G = 53,400원
-- LG U+, SK, SkyLife, LG HelloVision, SKB 알뜰의 조합 총액을 아정당 공개표 기준으로 직접 입력
-- 셋톱박스·모뎀·부가세가 포함된 아정당 표시 총액 기준
-- 기존 CalculatorContext 및 FinalEstimate 구조와 호환
+## 핵심 개선
+- 카테고리 선택 → 이용 목적 선택 → 추천상품 → 전체상품 흐름
+- 검증 상품 13개
+- 정수기, 비데, 안마의자, 건조기
+- 브랜드/상품명/모델명 검색
+- 목적별 추천 필터
+- 월 렌탈료/최대 할인/최대혜택가
+- 상품별 30초 상담 모달
+- Supabase consultations 접수
+- 모바일 하단 전화/무료상담 고정 버튼
 
-적용 후:
-npm run build
+## Supabase 주의
+consultations 테이블에 memo 컬럼이 없다면 추가해야 합니다.
 
-주의:
-- 스카이라이프는 사은품형 기준으로 구성했습니다.
-- 헬로비전과 SKB 알뜰은 설치 가능 지역 확인이 필요합니다.
-- 결합 할인과 카드 할인은 실제 가입 조건에 따라 달라질 수 있습니다.
+SQL:
+alter table consultations add column if not exists memo text;
+
+## 가격 안내
+가격 및 카드 혜택 확인일: 2026-07-17
+카드 할인은 전월 실적과 신규 발급 프로모션 조건에 따라 달라집니다.

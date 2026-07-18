@@ -5,20 +5,9 @@ type SectionProps = {
   className?: string;
 };
 
-export default function Section({
-  children,
-  className = "",
-}: SectionProps) {
+export default function Section({ children, className = "" }: SectionProps) {
   return (
-    <section
-      className={[
-        "py-14",
-        "sm:py-18",
-        "lg:py-22",
-        "xl:py-24",
-        className,
-      ].join(" ")}
-    >
+    <section className={["py-14 sm:py-18 lg:py-24", className].join(" ")}>
       {children}
     </section>
   );

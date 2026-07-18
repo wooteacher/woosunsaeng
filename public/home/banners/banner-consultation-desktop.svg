@@ -1,0 +1,26 @@
+<svg width="1600" height="280" viewBox="0 0 1600 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="280" gradientUnits="userSpaceOnUse"><stop stop-color="#ECFDF5"/><stop offset="1" stop-color="#D1FAE5"/></linearGradient>
+        <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#0F172A" flood-opacity="0.12"/></filter>
+      </defs>
+      <rect width="1600" height="280" rx="28" fill="url(#bg)"/>
+  <g transform="translate(0 20)">
+      <circle cx="1540" cy="-20" r="190" fill="#16A34A" fill-opacity="0.09"/><circle cx="1390" cy="270" r="210" fill="#16A34A" fill-opacity="0.07"/>
+      <rect x="70" y="38" width="190" height="30" rx="15" fill="white" fill-opacity="0.82"/>
+      <circle cx="89" cy="53" r="5" fill="#16A34A"/><text x="104" y="59" fill="#16A34A" font-size="15" font-weight="800" font-family="'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif">우선생 간편상담</text>
+      <text x="70" y="116" fill="#0F172A" font-size="38" font-weight="900" letter-spacing="-1.8" font-family="'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif">복잡한 조건은</text>
+      <text x="70" y="159" fill="#16A34A" font-size="38" font-weight="900" letter-spacing="-1.8" font-family="'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif">우선생이 빠르게 정리</text>
+      <text x="72" y="199" fill="#475569" font-size="18" font-weight="600" font-family="'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif">이름과 연락처만 남기면 필요한 내용만 안내해드려요</text>
+      <g transform="translate(1180 28)">
+          <rect width="300" height="184" rx="34" fill="white"/>
+          <circle cx="104" cy="82" r="46" fill="#DCFCE7"/>
+          <path d="M73 85C73 66 87 52 106 52C125 52 139 66 139 85V96C139 115 125 129 106 129H93" stroke="#16A34A" stroke-width="12" stroke-linecap="round"/>
+          <rect x="174" y="54" width="86" height="18" rx="9" fill="#DCFCE7"/>
+          <rect x="174" y="83" width="64" height="14" rx="7" fill="#BBF7D0"/>
+          <rect x="174" y="111" width="72" height="14" rx="7" fill="#86EFAC"/>
+          <circle cx="257" cy="33" r="24" fill="#16A34A"/>
+          <path d="M247 33L254 40L268 26" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+    
+  </g>
+</svg>

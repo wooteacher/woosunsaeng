@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="280" viewBox="0 0 1600 280">
+  <defs><linearGradient id="bg" x1="0" x2="1"><stop offset="0" stop-color="#0F172A"/><stop offset="1" stop-color="#163A2A"/></linearGradient></defs>
+  <rect width="1600" height="280" rx="30" fill="url(#bg)"/>
+  <g transform="translate(0 20)">
+  <circle cx="1460" cy="25" r="190" fill="#22C55E" opacity=".16"/>
+  <text x="72" y="55" fill="#86EFAC" font-family="Arial, sans-serif" font-size="21" font-weight="700">통신사별 조건 비교</text>
+  <text x="72" y="112" fill="#fff" font-family="Arial, sans-serif" font-size="43" font-weight="800">복잡한 인터넷 요금, <tspan fill="#4ADE80">쉽게 비교하세요</tspan></text>
+  <text x="72" y="160" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="20" font-weight="600">KT · LG U+ · SK · 스카이라이프 · 헬로비전 · SKB</text>
+  <g transform="translate(1180 27)">
+    <rect width="285" height="186" rx="30" fill="#fff" opacity=".97"/>
+    <rect x="30" y="28" width="225" height="34" rx="12" fill="#F0FDF4"/><circle cx="57" cy="45" r="9" fill="#16A34A"/>
+    <rect x="30" y="75" width="225" height="34" rx="12" fill="#ECFDF5"/><circle cx="57" cy="92" r="9" fill="#22C55E"/>
+    <rect x="30" y="122" width="225" height="34" rx="12" fill="#F8FAFC"/><circle cx="57" cy="139" r="9" fill="#86EFAC"/>
+    <rect x="30" y="169" width="128" height="9" rx="4.5" fill="#16A34A"/>
+  </g>
+
+  </g>
+</svg>

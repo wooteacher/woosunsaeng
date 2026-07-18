@@ -3,21 +3,17 @@
 import Image from "next/image";
 import { Check } from "lucide-react";
 
-import {
-  carrierOrder,
-  internetData,
-  type Carrier,
-} from "@/lib/internet/data";
+import { useCalculator } from "@/contexts/CalculatorContext";
+import type { Carrier } from "@/lib/internet/data";
 
 type CarrierTabsProps = {
   selected: Carrier;
   onChange: (carrier: Carrier) => void;
 };
 
-export default function CarrierTabs({
-  selected,
-  onChange,
-}: CarrierTabsProps) {
+export default function CarrierTabs({ selected, onChange }: CarrierTabsProps) {
+  const { carrierOrder, internetData } = useCalculator();
+
   return (
     <section className="grid gap-5 xl:grid-cols-[180px_minmax(0,1fr)] xl:items-center">
       <div>
@@ -33,6 +29,8 @@ export default function CarrierTabs({
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 xl:grid-cols-6">
         {carrierOrder.map((carrierId) => {
           const carrier = internetData[carrierId];
+          if (!carrier) return null;
+
           const active = selected === carrierId;
 
           return (
@@ -69,7 +67,7 @@ export default function CarrierTabs({
                   width={240}
                   height={120}
                   className="h-[46px] w-[126px] object-contain"
-                  priority={carrierId === "KT"}
+                  priority={carrierId === carrierOrder[0]}
                 />
               </div>
 

@@ -1,42 +1,32 @@
-# 우선생 렌탈 페이지 v2
+# 우선생 헤더·로고 고정 수정본
 
 ## 교체 파일
+- components/common/BrandLogo.tsx
+- components/common/HomeLogoLink.tsx
+- components/layout/Header.tsx
+- public/images/logo/woosunsaeng-logo.svg
 
-- `app/rental/page.tsx`
-- `components/rental/RentalPlatform.tsx`
-- `data/rental/products.ts`
+## 수정 내용
+- 업로드한 SVG 내부의 흰색 전체 배경 경로 제거
+- 로고 주변 불필요한 여백 자동 크롭
+- 헤더 높이를 항상 72px로 고정
+- 스크롤해도 로고 높이 고정
+- 스크롤 시 배경/테두리/그림자만 변경
+- 인터넷 페이지의 집 아이콘 교체용 HomeLogoLink 컴포넌트 추가
 
-## 이미지 경로
+## 인터넷 페이지 집 아이콘 교체
+인터넷 페이지에서 아래와 같은 코드가 있다면:
 
-- `public/images/rental/products/README.txt`
+<Home ... />
 
-이미지가 아직 없어도 모델명 기반 fallback 카드가 표시되므로 빌드 오류나 깨진 이미지가 발생하지 않습니다.
-제휴사 이미지를 안내된 파일명으로 넣으면 자동으로 실제 이미지로 바뀝니다.
+또는
 
-## 적용 후
+<Link href="/"><Home /></Link>
 
-```cmd
-npm run build
-```
+다음으로 교체하세요:
 
-성공하면:
+import HomeLogoLink from "@/components/common/HomeLogoLink";
 
-```cmd
-git add -A
-git commit -m "Renew rental page v2"
-git push origin main
-```
+<HomeLogoLink />
 
-## 구현 기능
-
-- 이미지 중심 렌탈 상품 카드
-- 카테고리 선택
-- 버튼형 브랜드 필터
-- 상품 검색
-- 추천순/가격순/최신순
-- BEST/추천/NEW 배지
-- 모델명·재고·특징
-- 월 렌탈료·제휴카드 할인
-- 선택 상품 하단 고정 요약
-- 모바일 바텀시트 상담
-- Supabase `consultations` 저장
+집 아이콘이 들어 있는 인터넷 페이지 파일을 보내주시면 해당 파일까지 전체 교체본으로 정확히 수정할 수 있습니다.

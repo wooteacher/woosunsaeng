@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700">
+  <rect width="900" height="700" rx="42" fill="#0F172A"/>
+  <circle cx="810" cy="80" r="220" fill="#22C55E" opacity=".2"/>
+  <text x="60" y="100" fill="#86EFAC" font-family="Arial, sans-serif" font-size="28" font-weight="700">통신사별 조건 비교</text>
+  <text x="60" y="190" fill="white" font-family="Arial, sans-serif" font-size="56" font-weight="800">복잡한 인터넷</text>
+  <text x="60" y="260" fill="#4ADE80" font-family="Arial, sans-serif" font-size="56" font-weight="800">쉽게 정리해드립니다</text>
+  <text x="60" y="318" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="23" font-weight="600">6개 통신사 요금과 혜택을 한 번에</text>
+  <rect x="90" y="390" width="720" height="220" rx="42" fill="white"/>
+  <rect x="145" y="438" width="610" height="46" rx="16" fill="#F0FDF4"/>
+  <rect x="145" y="505" width="610" height="46" rx="16" fill="#ECFDF5"/>
+  <rect x="145" y="572" width="300" height="16" rx="8" fill="#16A34A"/>
+</svg>

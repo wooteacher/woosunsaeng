@@ -1,0 +1,2 @@
+﻿id,category,brand,name,model_name,image_url,monthly_price,max_card_discount,final_price,contracts,management,features,purposes,recommended,popular,source_url,verified_at,data_status,active,display_order
+sample-water-purifier,정수기,브랜드명,상품명,MODEL-001,,32900,25000,7900,3년|5년|6년,방문관리|자가관리,냉온정|직수형|살균,신혼부부|아이 있는 집,true,false,,2026-07-18,catalog,true,100

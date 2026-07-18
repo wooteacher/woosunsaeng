@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="280" viewBox="0 0 1600 280">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#F0FDF4"/><stop offset="1" stop-color="#DCFCE7"/></linearGradient>
+    <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#16A34A"/><stop offset="1" stop-color="#22C55E"/></linearGradient>
+  </defs>
+  <rect width="1600" height="280" rx="30" fill="url(#bg)"/>
+  <g transform="translate(0 20)">
+  <circle cx="1420" cy="35" r="170" fill="#BBF7D0" opacity=".65"/>
+  <circle cx="1510" cy="225" r="170" fill="#86EFAC" opacity=".42"/>
+  <text x="72" y="55" fill="#15803D" font-family="Arial, sans-serif" font-size="21" font-weight="700">우선생 인터넷 혜택</text>
+  <text x="72" y="112" fill="#0F172A" font-family="Arial, sans-serif" font-size="43" font-weight="800">저렴한 요금부터 <tspan fill="#16A34A">최대 혜택까지</tspan></text>
+  <text x="72" y="157" fill="#475569" font-family="Arial, sans-serif" font-size="20" font-weight="600">통신사 · 속도 · TV를 선택하면 예상 요금을 바로 확인할 수 있어요.</text>
+  <rect x="72" y="178" width="178" height="42" rx="15" fill="url(#g)"/>
+  <text x="161" y="205" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="18" font-weight="700">지금 비교하기</text>
+  <g transform="translate(1190 26)">
+    <rect width="270" height="188" rx="32" fill="#fff" opacity=".94"/>
+    <rect x="35" y="30" width="200" height="39" rx="14" fill="#F0FDF4"/><circle cx="62" cy="49" r="11" fill="#22C55E"/><rect x="88" y="42" width="108" height="14" rx="7" fill="#BBF7D0"/>
+    <rect x="35" y="82" width="200" height="39" rx="14" fill="#F8FAFC"/><circle cx="62" cy="101" r="11" fill="#16A34A"/><rect x="88" y="94" width="92" height="14" rx="7" fill="#D1FAE5"/>
+    <rect x="35" y="137" width="200" height="27" rx="10" fill="#16A34A"/>
+  </g>
+
+  </g>
+</svg>

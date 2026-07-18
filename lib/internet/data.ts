@@ -47,6 +47,9 @@ export type CarrierData = {
   label: string;
   logo: string;
   maxCardDiscount: number;
+  priceVerifiedAt: string;
+  pricingBasis: string;
+  equipmentNote: string;
   internetPlans: InternetPlan[];
   tvPlans: TvPlan[];
   bundleRules: BundleRule[];
@@ -95,6 +98,9 @@ export const internetData: Record<Carrier, CarrierData> = {
     label: "KT",
     logo: "/carriers/kt.png",
     maxCardDiscount: 22000,
+    priceVerifiedAt: "2026.07.18",
+    pricingBasis: "3년 약정 · VAT 포함",
+    equipmentNote: "기가지니A 기준 · 설치비 별도",
 
     internetPlans: [
       {
@@ -204,7 +210,10 @@ export const internetData: Record<Carrier, CarrierData> = {
     id: "LG U+",
     label: "LG U+",
     logo: "/carriers/lg.png",
-    maxCardDiscount: 18000,
+    maxCardDiscount: 25000,
+    priceVerifiedAt: "2026.07.18",
+    pricingBasis: "3년 약정 · VAT 포함",
+    equipmentNote: "대표 셋톱박스 기준 · 설치비 별도",
 
     internetPlans: [
       {
@@ -241,7 +250,7 @@ export const internetData: Record<Carrier, CarrierData> = {
       {
         id: "lg-tv-value",
         name: "실속형",
-        channels: 219,
+        channels: 217,
         description: "실속 있는 기본 채널",
         monthlyPrice: 17600,
         recommended: true,
@@ -249,14 +258,14 @@ export const internetData: Record<Carrier, CarrierData> = {
       {
         id: "lg-tv-basic",
         name: "기본형",
-        channels: 225,
+        channels: 223,
         description: "인기 채널 중심",
         monthlyPrice: 18700,
       },
       {
         id: "lg-tv-premium",
         name: "프리미엄",
-        channels: 253,
+        channels: 252,
         description: "프리미엄 채널 구성",
         monthlyPrice: 20900,
       },
@@ -270,7 +279,7 @@ export const internetData: Record<Carrier, CarrierData> = {
       {
         id: "lg-tv-netflix",
         name: "프리미엄 넷플릭스 HD",
-        channels: 258,
+        channels: 257,
         description: "넷플릭스 HD 포함",
         monthlyPrice: 32200,
       },
@@ -315,6 +324,9 @@ export const internetData: Record<Carrier, CarrierData> = {
     label: "SK",
     logo: "/carriers/sk.png",
     maxCardDiscount: 18000,
+    priceVerifiedAt: "2026.07.18",
+    pricingBasis: "3년 약정 · VAT 포함",
+    equipmentNote: "대표 셋톱박스 기준 · 공유기/설치비 별도",
 
     internetPlans: [
       {
@@ -412,6 +424,9 @@ export const internetData: Record<Carrier, CarrierData> = {
     label: "스카이라이프",
     logo: "/carriers/skylife.png",
     maxCardDiscount: 18000,
+    priceVerifiedAt: "상담 시 재확인",
+    pricingBasis: "지역·상품별 요금 상이",
+    equipmentNote: "대표 셋톱박스 기준 · 설치 가능 지역 확인",
 
     internetPlans: [
       {
@@ -483,6 +498,9 @@ export const internetData: Record<Carrier, CarrierData> = {
     label: "LG 헬로비전",
     logo: "/carriers/hellovision.png",
     maxCardDiscount: 18000,
+    priceVerifiedAt: "상담 시 재확인",
+    pricingBasis: "지역·상품별 요금 상이",
+    equipmentNote: "대표 셋톱박스 기준 · 지역별 제공 상품 상이",
 
     internetPlans: [
       {
@@ -577,9 +595,12 @@ export const internetData: Record<Carrier, CarrierData> = {
 
   SKB: {
     id: "SKB",
-    label: "SKB 알뜰",
+    label: "B tv pop",
     logo: "/carriers/skb.png",
     maxCardDiscount: 18000,
+    priceVerifiedAt: "상담 시 재확인",
+    pricingBasis: "서비스 지역별 요금 상이",
+    equipmentNote: "B tv pop 서비스 지역 · 셋톱박스/설치비 별도",
 
     internetPlans: [
       {

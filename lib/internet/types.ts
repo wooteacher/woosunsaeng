@@ -69,6 +69,11 @@ export type CarrierData = {
   // 통신사별 최대 제휴카드 할인
   maxCardDiscount: number;
 
+  // 요금 검증 및 표시 기준
+  priceVerifiedAt?: string;
+  pricingBasis?: string;
+  equipmentNote?: string;
+
   internetPlans: InternetPlan[];
   tvPlans: TvPlan[];
   bundleRules: BundleRule[];

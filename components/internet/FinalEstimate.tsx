@@ -20,151 +20,36 @@ import { createReceiptCode } from "@/lib/internet/receiptCode";
 
 const formatPrice = (price: number) => price.toLocaleString("ko-KR");
 
-const typographyClassName =
-  "[font-family:Pretendard,'Noto_Sans_KR','Apple_SD_Gothic_Neo','Malgun_Gothic',sans-serif] antialiased";
-
-const surfaceClassName =
-  "rounded-[22px] border border-white/[0.08] bg-white/[0.045] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]";
-
-type EstimateHeaderProps = {
-  carrier: string;
-  productName: string;
-};
-
-function EstimateHeader({ carrier, productName }: EstimateHeaderProps) {
-  return (
-    <header className="flex min-h-[74px] items-start justify-between gap-4">
-      <div className="min-w-0">
-        <p className="text-xs font-bold leading-5 tracking-[-0.01em] text-emerald-400">
-          우선생 예상 견적
-        </p>
-
-        <h2 className="mt-1 truncate text-[26px] font-extrabold leading-tight tracking-[-0.045em] text-white">
-          {carrier}
-        </h2>
-
-        <p className="mt-1 truncate text-[13px] font-medium leading-5 tracking-[-0.01em] text-slate-300">
-          {productName}
-        </p>
-      </div>
-
-      <div className="flex size-11 shrink-0 items-center justify-center rounded-[15px] border border-emerald-400/15 bg-emerald-400/10 text-emerald-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-        <BadgeCheck size={21} strokeWidth={2.15} />
-      </div>
-    </header>
-  );
-}
-
-type MonthlyPriceCardProps = {
-  monthlyPrice: number;
-};
-
-function MonthlyPriceCard({ monthlyPrice }: MonthlyPriceCardProps) {
-  return (
-    <section className="mt-4 rounded-[24px] border border-emerald-400/20 bg-gradient-to-br from-emerald-400/[0.15] via-emerald-400/[0.09] to-emerald-400/[0.05] px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_14px_34px_rgba(16,185,129,0.08)] sm:px-[18px]">
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-[13px] font-bold leading-5 text-emerald-200">
-          현재 예상 월요금
-        </p>
-        <span className="rounded-full border border-emerald-300/15 bg-emerald-300/[0.08] px-2.5 py-1 text-[11px] font-bold text-emerald-200">
-          실시간 계산
-        </span>
-      </div>
-
-      <div className="mt-2.5 flex min-w-0 items-end gap-1.5">
-        <strong className="min-w-0 truncate tabular-nums text-[40px] font-extrabold leading-none tracking-[-0.065em] text-emerald-400 sm:text-[42px]">
-          {formatPrice(monthlyPrice)}
-        </strong>
-        <span className="pb-1 text-base font-extrabold text-emerald-400">원</span>
-      </div>
-
-      <p className="mt-2.5 text-xs font-medium leading-[1.65] tracking-[-0.01em] text-emerald-50/75">
-        선택한 상품과 할인 조건을 기준으로 계산된 예상 금액입니다.
-      </p>
-    </section>
-  );
-}
-
-type ProductRowProps = {
+function ProductRow({
+  icon: Icon,
+  title,
+  detail,
+  price,
+}: {
   icon: LucideIcon;
   title: string;
   detail: string;
   price: number;
-};
-
-function ProductRow({ icon: Icon, title, detail, price }: ProductRowProps) {
+}) {
   return (
-    <div className="grid min-h-[64px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-3.5 py-3">
-      <div className="flex min-w-0 items-center gap-3">
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-[12px] bg-emerald-400/[0.09] text-emerald-400">
-          <Icon size={17} strokeWidth={2.1} />
+    <div className="grid min-h-[50px] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 py-2">
+      <div className="flex min-w-0 items-center gap-2.5">
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-[10px] bg-emerald-400/10 text-emerald-400">
+          <Icon size={15} strokeWidth={2.1} />
         </span>
-
         <div className="min-w-0">
-          <p className="text-[14px] font-bold leading-5 text-white">{title}</p>
-          <p className="mt-0.5 truncate text-xs font-medium leading-5 tracking-[-0.01em] text-slate-400">
+          <p className="text-[12px] font-bold text-white">{title}</p>
+          <p className="mt-0.5 truncate text-[10px] font-medium text-slate-400">
             {detail}
           </p>
         </div>
       </div>
-
-      <p className="shrink-0 tabular-nums text-[14px] font-extrabold tracking-[-0.025em] text-white">
+      <p className="shrink-0 tabular-nums text-[12px] font-extrabold text-white">
         {formatPrice(price)}원
       </p>
     </div>
   );
 }
-
-type ProductSummaryCardProps = {
-  internetDetail: string;
-  internetPrice: number;
-  tvDetail: string;
-  tvPrice: number;
-  monthlyBasePrice: number;
-};
-
-function ProductSummaryCard({
-  internetDetail,
-  internetPrice,
-  tvDetail,
-  tvPrice,
-  monthlyBasePrice,
-}: ProductSummaryCardProps) {
-  return (
-    <section className={`mt-3.5 ${surfaceClassName}`}>
-      <ProductRow
-        icon={Wifi}
-        title="인터넷"
-        detail={internetDetail}
-        price={internetPrice}
-      />
-
-      <div className="mx-3.5 h-px bg-white/[0.07]" />
-
-      <ProductRow icon={Tv} title="TV" detail={tvDetail} price={tvPrice} />
-
-      <div className="mx-3.5 h-px bg-white/[0.07]" />
-
-      <div className="flex min-h-[48px] items-center justify-between gap-4 px-3.5 py-3">
-        <span className="text-[13px] font-semibold leading-5 text-slate-300">
-          월 기본요금
-        </span>
-        <span className="tabular-nums text-[14px] font-extrabold tracking-[-0.025em] text-white">
-          {formatPrice(monthlyBasePrice)}원
-        </span>
-      </div>
-    </section>
-  );
-}
-
-type DiscountOptionProps = {
-  title: string;
-  description: string;
-  amount: number;
-  enabled: boolean;
-  onToggle: () => void;
-  icon: ReactNode;
-};
 
 function DiscountOption({
   title,
@@ -173,43 +58,43 @@ function DiscountOption({
   enabled,
   onToggle,
   icon,
-}: DiscountOptionProps) {
+}: {
+  title: string;
+  description: string;
+  amount: number;
+  enabled: boolean;
+  onToggle: () => void;
+  icon: ReactNode;
+}) {
   return (
     <button
       type="button"
       role="switch"
       aria-checked={enabled}
-      aria-label={`${title} ${enabled ? "적용 해제" : "적용"}`}
       onClick={onToggle}
       className={[
-        "group grid min-h-[64px] w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-[18px] border px-3.5 py-3 text-left outline-none transition duration-200 focus-visible:ring-2 focus-visible:ring-emerald-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950",
+        "grid min-h-[52px] w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-[15px] border px-3 py-2 text-left transition",
         enabled
           ? "border-emerald-400/30 bg-emerald-400/[0.09]"
-          : "border-white/[0.08] bg-white/[0.035] hover:border-white/[0.13] hover:bg-white/[0.055]",
+          : "border-white/[0.08] bg-white/[0.035]",
       ].join(" ")}
     >
-      <span className="flex min-w-0 items-center gap-3">
+      <span className="flex min-w-0 items-center gap-2.5">
         <span
           className={[
-            "flex size-9 shrink-0 items-center justify-center rounded-[12px] transition",
+            "flex size-8 shrink-0 items-center justify-center rounded-[10px]",
             enabled
               ? "bg-emerald-400/15 text-emerald-400"
-              : "bg-white/[0.055] text-slate-400 group-hover:text-slate-300",
+              : "bg-white/[0.055] text-slate-400",
           ].join(" ")}
         >
           {icon}
         </span>
-
         <span className="min-w-0">
-          <span
-            className={[
-              "block truncate text-[14px] font-bold leading-5",
-              enabled ? "text-white" : "text-slate-300",
-            ].join(" ")}
-          >
+          <span className="block truncate text-[12px] font-bold text-white">
             {title}
           </span>
-          <span className="mt-0.5 block truncate text-xs font-medium leading-5 tracking-[-0.01em] text-slate-400">
+          <span className="mt-0.5 block truncate text-[9px] font-medium text-slate-400">
             {description}
           </span>
         </span>
@@ -218,142 +103,25 @@ function DiscountOption({
       <span className="shrink-0 text-right">
         <span
           className={[
-            "block tabular-nums text-[14px] font-extrabold tracking-[-0.025em]",
+            "block tabular-nums text-[12px] font-extrabold",
             enabled ? "text-emerald-400" : "text-slate-400",
           ].join(" ")}
         >
           -{formatPrice(amount)}원
         </span>
-
         <span
           className={[
-            "mt-1.5 inline-flex h-6 min-w-[54px] items-center justify-center gap-1 rounded-full px-2.5 text-[11px] font-bold transition",
+            "mt-1 inline-flex h-[18px] items-center gap-1 rounded-full px-1.5 text-[8px] font-bold",
             enabled
               ? "bg-emerald-500 text-white"
-              : "bg-white/[0.07] text-slate-400",
+              : "bg-white/[0.08] text-slate-400",
           ].join(" ")}
         >
-          {enabled && <Check size={11} strokeWidth={3} />}
+          {enabled && <Check size={9} strokeWidth={3} />}
           {enabled ? "적용" : "미적용"}
         </span>
       </span>
     </button>
-  );
-}
-
-type DiscountSectionProps = {
-  mobileDiscount: number;
-  cardDiscount: number;
-  useMobileDiscount: boolean;
-  useCardDiscount: boolean;
-  toggleMobileDiscount: () => void;
-  toggleCardDiscount: () => void;
-};
-
-function DiscountSection({
-  mobileDiscount,
-  cardDiscount,
-  useMobileDiscount,
-  useCardDiscount,
-  toggleMobileDiscount,
-  toggleCardDiscount,
-}: DiscountSectionProps) {
-  return (
-    <section className="mt-3.5">
-      <div className="flex min-h-5 items-center justify-between gap-3">
-        <h3 className="text-[14px] font-extrabold leading-5 text-white">
-          할인 적용
-        </h3>
-        <p className="text-xs font-medium leading-5 text-slate-400">
-          원하는 할인만 선택
-        </p>
-      </div>
-
-      <div className="mt-2.5 space-y-2.5">
-        <DiscountOption
-          title="휴대폰 결합 할인"
-          description="휴대폰 1회선 결합 기준"
-          amount={mobileDiscount}
-          enabled={useMobileDiscount}
-          onToggle={toggleMobileDiscount}
-          icon={<Smartphone size={17} strokeWidth={2.1} />}
-        />
-
-        <DiscountOption
-          title="카드 할인"
-          description="제휴카드 최대 할인 기준"
-          amount={cardDiscount}
-          enabled={useCardDiscount}
-          onToggle={toggleCardDiscount}
-          icon={<CreditCard size={17} strokeWidth={2.1} />}
-        />
-      </div>
-    </section>
-  );
-}
-
-type RewardCardProps = {
-  rewardAmount: number;
-};
-
-function RewardCard({ rewardAmount }: RewardCardProps) {
-  return (
-    <section className="mt-3.5 rounded-[20px] border border-amber-300/15 bg-amber-300/[0.065] px-3.5 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.025)]">
-      <div className="flex items-center gap-3">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-[13px] bg-amber-300/10 text-amber-300">
-          <Gift size={18} strokeWidth={2.1} />
-        </div>
-
-        <div className="min-w-0 flex-1">
-          <p className="text-xs font-bold leading-5 text-amber-300">
-            예상 사은품
-          </p>
-
-          <div className="mt-1 flex flex-wrap items-center gap-2">
-            <p className="truncate tabular-nums text-[19px] font-extrabold leading-6 tracking-[-0.04em] text-white">
-              {rewardAmount > 0
-                ? `${formatPrice(rewardAmount)}원`
-                : "상담 시 최대 혜택"}
-            </p>
-
-            <span className="rounded-full bg-emerald-500 px-2.5 py-1 text-[11px] font-bold text-white">
-              + 추가 혜택
-            </span>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-type EstimateActionsProps = {
-  applyUrl: string;
-  onConsultationOpen: () => void;
-};
-
-function EstimateActions({
-  applyUrl,
-  onConsultationOpen,
-}: EstimateActionsProps) {
-  return (
-    <div className="mt-auto space-y-2.5 pt-4">
-      <button
-        type="button"
-        onClick={onConsultationOpen}
-        className="flex h-12 w-full items-center justify-center gap-2 rounded-[16px] bg-emerald-500 px-4 text-[14px] font-extrabold text-white shadow-[0_12px_30px_rgba(16,185,129,0.23)] outline-none transition duration-200 hover:bg-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 active:scale-[0.99]"
-      >
-        <PhoneCall size={17} strokeWidth={2.2} />
-        상담원 연결
-      </button>
-
-      <a
-        href={applyUrl}
-        className="flex h-12 w-full items-center justify-center gap-2 rounded-[16px] border border-white/[0.11] bg-white/[0.055] px-4 text-[14px] font-extrabold text-white outline-none transition duration-200 hover:border-emerald-400/30 hover:bg-emerald-400/[0.08] hover:text-emerald-200 focus-visible:ring-2 focus-visible:ring-emerald-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 active:scale-[0.99]"
-      >
-        <FilePenLine size={17} strokeWidth={2.2} />
-        간편 가입 신청
-      </a>
-    </div>
   );
 }
 
@@ -425,7 +193,7 @@ export default function FinalEstimate() {
   );
 
   const applyUrl = useMemo(() => {
-    const applyParams = new URLSearchParams({
+    const params = new URLSearchParams({
       code: receiptCode,
       product: productSummary,
       base: String(monthlyBasePrice),
@@ -435,7 +203,7 @@ export default function FinalEstimate() {
       card: useCardDiscount ? "1" : "0",
     });
 
-    return `/internet/apply?${applyParams.toString()}`;
+    return `/internet/apply?${params.toString()}`;
   }, [
     receiptCode,
     productSummary,
@@ -446,57 +214,144 @@ export default function FinalEstimate() {
     useCardDiscount,
   ]);
 
-  const headerProductName = internetPlan
+  const productName = internetPlan
     ? `${internetPlan.speed} ${internetPlan.name}${
         tvPlan ? ` + ${tvPlan.name} TV` : ""
       }`
     : "인터넷 선택 전";
 
-  const internetDetail = internetPlan
-    ? `${internetPlan.speed} · ${internetPlan.name}`
-    : "선택 전";
-
-  const tvDetail = tvPlan
-    ? `${tvPlan.name} · ${tvPlan.channels}채널`
-    : "선택하지 않음";
-
   return (
     <>
-      <aside className={`h-full min-h-0 ${typographyClassName}`}>
-        <div className="flex h-full min-h-[760px] flex-col overflow-hidden rounded-[30px] border border-white/[0.06] bg-slate-950 text-white shadow-[0_28px_80px_rgba(15,23,42,0.24)] xl:min-h-0">
-          <div className="flex min-h-0 flex-1 flex-col p-4 sm:p-5">
-            <EstimateHeader carrier={carrier} productName={headerProductName} />
+      <aside className="h-full min-h-0">
+        <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-[28px] border border-slate-800/80 bg-slate-950 text-white shadow-[0_24px_70px_rgba(15,23,42,0.22)]">
+          <div className="flex min-h-0 flex-1 flex-col p-4">
+            <header className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold text-emerald-400">
+                  우선생 예상 견적
+                </p>
+                <h2 className="mt-1 truncate text-[21px] font-extrabold tracking-[-0.04em]">
+                  {carrier}
+                </h2>
+                <p className="mt-0.5 truncate text-[10px] font-medium text-slate-400">
+                  {productName}
+                </p>
+              </div>
+              <div className="flex size-9 shrink-0 items-center justify-center rounded-[12px] bg-emerald-400/10 text-emerald-400">
+                <BadgeCheck size={18} strokeWidth={2.2} />
+              </div>
+            </header>
 
-            <MonthlyPriceCard monthlyPrice={estimatedMonthlyPrice} />
+            <section className="mt-3 rounded-[20px] border border-emerald-400/20 bg-emerald-400/[0.09] px-3.5 py-3">
+              <p className="text-[10px] font-bold text-emerald-300">
+                현재 예상 월요금
+              </p>
+              <div className="mt-1.5 flex items-end gap-1">
+                <strong className="truncate tabular-nums text-[34px] font-extrabold leading-none tracking-[-0.06em] text-emerald-400">
+                  {formatPrice(estimatedMonthlyPrice)}
+                </strong>
+                <span className="pb-0.5 text-[13px] font-bold text-emerald-400">
+                  원
+                </span>
+              </div>
+            </section>
 
-            <ProductSummaryCard
-              internetDetail={internetDetail}
-              internetPrice={internetPrice}
-              tvDetail={tvDetail}
-              tvPrice={tvPrice}
-              monthlyBasePrice={monthlyBasePrice}
-            />
+            <section className="mt-3 overflow-hidden rounded-[18px] border border-white/[0.08] bg-white/[0.04]">
+              <ProductRow
+                icon={Wifi}
+                title="인터넷"
+                detail={
+                  internetPlan
+                    ? `${internetPlan.speed} · ${internetPlan.name}`
+                    : "선택 전"
+                }
+                price={internetPrice}
+              />
+              <div className="mx-3 h-px bg-white/[0.07]" />
+              <ProductRow
+                icon={Tv}
+                title="TV"
+                detail={
+                  tvPlan
+                    ? `${tvPlan.name} · ${tvPlan.channels}채널`
+                    : "선택하지 않음"
+                }
+                price={tvPrice}
+              />
+              <div className="mx-3 h-px bg-white/[0.07]" />
+              <div className="flex min-h-[38px] items-center justify-between gap-3 px-3 py-2">
+                <span className="text-[10px] font-semibold text-slate-400">
+                  월 기본요금
+                </span>
+                <span className="tabular-nums text-[12px] font-extrabold">
+                  {formatPrice(monthlyBasePrice)}원
+                </span>
+              </div>
+            </section>
 
-            <DiscountSection
-              mobileDiscount={mobileDiscount}
-              cardDiscount={cardDiscount}
-              useMobileDiscount={useMobileDiscount}
-              useCardDiscount={useCardDiscount}
-              toggleMobileDiscount={toggleMobileDiscount}
-              toggleCardDiscount={toggleCardDiscount}
-            />
+            <section className="mt-3">
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="text-[11px] font-extrabold">할인 적용</h3>
+                <p className="text-[9px] font-medium text-slate-400">
+                  선택하여 적용
+                </p>
+              </div>
+              <div className="mt-2 space-y-2">
+                <DiscountOption
+                  title="휴대폰 결합 할인"
+                  description="휴대폰 1회선 결합 기준"
+                  amount={mobileDiscount}
+                  enabled={useMobileDiscount}
+                  onToggle={toggleMobileDiscount}
+                  icon={<Smartphone size={15} strokeWidth={2.1} />}
+                />
+                <DiscountOption
+                  title="카드 할인"
+                  description="제휴카드 최대 할인 기준"
+                  amount={cardDiscount}
+                  enabled={useCardDiscount}
+                  onToggle={toggleCardDiscount}
+                  icon={<CreditCard size={15} strokeWidth={2.1} />}
+                />
+              </div>
+            </section>
 
-            <RewardCard rewardAmount={rewardAmount} />
+            <section className="mt-3 flex items-center gap-2.5 rounded-[17px] border border-amber-300/15 bg-amber-300/[0.06] px-3 py-2.5">
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-[10px] bg-amber-300/10 text-amber-300">
+                <Gift size={16} strokeWidth={2.1} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[9px] font-bold text-amber-300">예상 사은품</p>
+                <p className="mt-0.5 truncate tabular-nums text-[16px] font-extrabold">
+                  {rewardAmount > 0
+                    ? `${formatPrice(rewardAmount)}원 + 추가 혜택`
+                    : "상담 시 최대 혜택"}
+                </p>
+              </div>
+            </section>
 
-            <EstimateActions
-              applyUrl={applyUrl}
-              onConsultationOpen={() => setConsultationOpen(true)}
-            />
+            <div className="mt-auto grid grid-cols-2 gap-2 pt-3">
+              <button
+                type="button"
+                onClick={() => setConsultationOpen(true)}
+                className="flex h-10 items-center justify-center gap-1.5 rounded-[13px] bg-emerald-500 px-3 text-[12px] font-bold transition hover:bg-emerald-400"
+              >
+                <PhoneCall size={15} strokeWidth={2.2} />
+                상담 연결
+              </button>
+              <a
+                href={applyUrl}
+                className="flex h-10 items-center justify-center gap-1.5 rounded-[13px] border border-white/[0.11] bg-white/[0.055] px-3 text-[12px] font-bold transition hover:bg-white/[0.09]"
+              >
+                <FilePenLine size={15} strokeWidth={2.2} />
+                가입 신청
+              </a>
+            </div>
           </div>
 
-          <footer className="border-t border-white/[0.07] bg-white/[0.025] px-4 py-3">
-            <p className="text-center text-xs font-medium leading-5 tracking-[-0.01em] text-slate-400">
-              결합 할인과 최종 조건은 상담 시 정확하게 확인됩니다.
+          <footer className="border-t border-white/[0.07] bg-white/[0.025] px-3 py-2">
+            <p className="text-center text-[9px] font-medium text-slate-400">
+              최종 조건은 상담 시 정확하게 확인됩니다.
             </p>
           </footer>
         </div>

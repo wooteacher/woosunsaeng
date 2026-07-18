@@ -1,8 +1,5 @@
 import Link from "next/link";
-import type {
-  ButtonHTMLAttributes,
-  ReactNode,
-} from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
@@ -11,18 +8,14 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string;
 };
 
-
 const styles = {
   primary:
-    "bg-green-600 text-white shadow-lg shadow-green-200 hover:bg-green-700",
-
+    "bg-green-600 text-white shadow-[0_14px_28px_-14px_rgba(22,163,74,0.65)] hover:bg-green-700",
   secondary:
-    "bg-gray-950 text-white shadow-lg shadow-gray-900/20 hover:bg-black",
-
+    "bg-slate-950 text-white shadow-[0_14px_28px_-16px_rgba(15,23,42,0.7)] hover:bg-slate-800",
   outline:
-    "border border-gray-200 bg-white text-gray-900 shadow-sm hover:border-green-300 hover:bg-green-50 hover:text-green-700",
+    "border border-slate-200 bg-white text-slate-900 shadow-sm hover:border-green-300 hover:bg-green-50 hover:text-green-700",
 };
-
 
 export default function Button({
   children,
@@ -33,42 +26,27 @@ export default function Button({
   disabled,
   ...props
 }: ButtonProps) {
-
   const classes = [
-    "inline-flex items-center justify-center gap-2",
-    "min-h-14 rounded-2xl px-6 py-4",
-    "text-base font-black tracking-tight",
-    "transition-all duration-200",
-    "hover:-translate-y-0.5",
-    "focus-visible:outline-none",
-    "focus-visible:ring-4 focus-visible:ring-green-500/20",
-    "disabled:pointer-events-none",
-    "disabled:opacity-50",
+    "inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl px-5 py-3",
+    "text-[15px] font-extrabold tracking-[-0.02em] sm:min-h-13 sm:px-6 sm:text-base",
+    "transition-[transform,background-color,border-color,color,box-shadow] duration-200",
+    "hover:-translate-y-0.5 active:translate-y-0",
+    "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-500/20",
+    "disabled:pointer-events-none disabled:opacity-45",
     styles[variant],
     className,
   ].join(" ");
 
-
   if (href) {
     return (
-      <Link
-        href={href}
-        className={classes}
-        aria-disabled={disabled || undefined}
-      >
+      <Link href={href} className={classes} aria-disabled={disabled || undefined}>
         {children}
       </Link>
     );
   }
 
-
   return (
-    <button
-      type={type}
-      disabled={disabled}
-      className={classes}
-      {...props}
-    >
+    <button type={type} disabled={disabled} className={classes} {...props}>
       {children}
     </button>
   );

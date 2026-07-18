@@ -1,33 +1,23 @@
-import Header from "@/components/layout/Header";
-import Hero from "@/components/home/Hero";
-import CustomerNeeds from "@/components/home/CustomerNeeds";
-import ServiceSection from "@/components/home/ServiceSection";
-import CallToAction from "@/components/home/CallToAction";
-import Footer from "@/components/layout/Footer";
+import type { Metadata } from "next";
 
-import FloatingContact from "@/components/common/FloatingContact";
-import MobileBottomBar from "@/components/common/MobileBottomBar";
+import HomeLanding from "@/components/home/HomeLanding";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+
+export const metadata: Metadata = {
+  title: "우선생 | 우리가 선택한 생활서비스",
+  description:
+    "인터넷, TV, 생활가전 렌탈을 쉽고 정확하게 비교하고 빠르게 상담받아보세요.",
+};
 
 export default function Home() {
   return (
     <>
       <Header />
-
-      <main className="overflow-hidden">
-        <Hero />
-
-        <CustomerNeeds />
-
-        <ServiceSection />
-
-        <CallToAction />
+      <main className="min-h-screen bg-[#f7f8fa]">
+        <HomeLanding />
       </main>
-
       <Footer />
-
-      <FloatingContact />
-
-      <MobileBottomBar />
     </>
   );
 }

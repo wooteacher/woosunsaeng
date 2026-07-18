@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700">
+  <rect width="900" height="700" rx="42" fill="#ECFDF5"/>
+  <path d="M660 0h240v700H530c100-130 160-360 130-700z" fill="#16A34A"/>
+  <text x="60" y="100" fill="#15803D" font-family="Arial, sans-serif" font-size="28" font-weight="700">빠른 상담 연결</text>
+  <text x="60" y="190" fill="#0F172A" font-family="Arial, sans-serif" font-size="57" font-weight="800">선택이 어렵다면</text>
+  <text x="60" y="260" fill="#16A34A" font-family="Arial, sans-serif" font-size="57" font-weight="800">우선생에게 맡겨주세요</text>
+  <text x="60" y="318" fill="#475569" font-family="Arial, sans-serif" font-size="22" font-weight="600">상담접수 → 조건확인 → 혜택안내 → 설치진행</text>
+  <rect x="405" y="380" width="320" height="240" rx="48" fill="white"/>
+  <circle cx="565" cy="465" r="54" fill="#DCFCE7"/>
+  <circle cx="545" cy="450" r="7" fill="#16A34A"/>
+  <circle cx="585" cy="450" r="7" fill="#16A34A"/>
+  <path d="M535 478c14 18 46 18 60 0" stroke="#16A34A" stroke-width="11" fill="none" stroke-linecap="round"/>
+  <rect x="485" y="545" width="160" height="44" rx="16" fill="#16A34A"/>
+</svg>

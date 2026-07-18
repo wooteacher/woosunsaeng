@@ -9,8 +9,6 @@ import {
 } from "react";
 
 import {
-  getBundleRule,
-  internetData,
   type BundleRule,
   type Carrier,
   type CarrierData,
@@ -18,10 +16,17 @@ import {
   type RewardInfo,
   type TvPlan,
 } from "@/lib/internet/data";
+import {
+  getLocalInternetCatalog,
+  type InternetCatalog,
+} from "@/lib/internet/catalog";
 
 type CalculatorContextValue = {
   carrier: Carrier;
   carrierData: CarrierData;
+  carrierOrder: Carrier[];
+  internetData: Partial<Record<Carrier, CarrierData>>;
+  catalogSource: InternetCatalog["source"];
 
   internetPlan: InternetPlan | null;
   tvPlan: TvPlan | null;
@@ -51,8 +56,7 @@ type CalculatorContextValue = {
   setUseCardDiscount: (value: boolean) => void;
 };
 
-const CalculatorContext =
-  createContext<CalculatorContextValue | null>(null);
+const CalculatorContext = createContext<CalculatorContextValue | null>(null);
 
 function getDefaultInternetPlan(data: CarrierData) {
   return (
@@ -70,122 +74,90 @@ function getDefaultTvPlan(data: CarrierData) {
   );
 }
 
-const initialCarrier: Carrier = "KT";
+function getFirstCarrier(catalog: InternetCatalog): Carrier {
+  const firstCarrier = catalog.carrierOrder.find(
+    (carrier) => catalog.internetData[carrier],
+  );
 
-const initialInternetPlan = getDefaultInternetPlan(
-  internetData[initialCarrier],
-);
-
-const initialTvPlan = getDefaultTvPlan(
-  internetData[initialCarrier],
-);
+  return firstCarrier ?? "KT";
+}
 
 export function CalculatorProvider({
   children,
+  initialCatalog,
 }: {
   children: ReactNode;
+  initialCatalog?: InternetCatalog;
 }) {
-  const [carrier, setCarrier] =
-    useState<Carrier>(initialCarrier);
+  const catalog = initialCatalog ?? getLocalInternetCatalog();
+  const initialCarrier = getFirstCarrier(catalog);
+  const initialCarrierData =
+    catalog.internetData[initialCarrier] ?? getLocalInternetCatalog().internetData.KT!;
+  const initialInternetPlan = getDefaultInternetPlan(initialCarrierData);
+  const initialTvPlan = getDefaultTvPlan(initialCarrierData);
 
+  const [carrier, setCarrier] = useState<Carrier>(initialCarrier);
   const [internetPlanId, setInternetPlanId] = useState(
     initialInternetPlan?.id ?? "",
   );
-
   const [tvPlanId, setTvPlanId] = useState<string | null>(
     initialTvPlan?.id ?? null,
   );
+  const [useMobileDiscount, setUseMobileDiscount] = useState(true);
+  const [useCardDiscount, setUseCardDiscount] = useState(true);
 
-  // 할인은 최초 진입 시 모두 적용
-  const [useMobileDiscount, setUseMobileDiscount] =
-    useState(true);
-
-  const [useCardDiscount, setUseCardDiscount] =
-    useState(true);
-
-  const carrierData = internetData[carrier];
+  const fallbackCarrier = getFirstCarrier(catalog);
+  const carrierData =
+    catalog.internetData[carrier] ??
+    catalog.internetData[fallbackCarrier] ??
+    getLocalInternetCatalog().internetData.KT!;
 
   const internetPlan = useMemo<InternetPlan | null>(() => {
     return (
-      carrierData.internetPlans.find(
-        (plan) => plan.id === internetPlanId,
-      ) ?? getDefaultInternetPlan(carrierData)
+      carrierData.internetPlans.find((plan) => plan.id === internetPlanId) ??
+      getDefaultInternetPlan(carrierData)
     );
   }, [carrierData, internetPlanId]);
 
   const tvPlan = useMemo<TvPlan | null>(() => {
-    if (!tvPlanId) {
-      return null;
-    }
-
-    return (
-      carrierData.tvPlans.find(
-        (plan) => plan.id === tvPlanId,
-      ) ?? null
-    );
+    if (!tvPlanId) return null;
+    return carrierData.tvPlans.find((plan) => plan.id === tvPlanId) ?? null;
   }, [carrierData.tvPlans, tvPlanId]);
 
   const bundleRule = useMemo<BundleRule | null>(() => {
-    if (!internetPlan || !tvPlan) {
-      return null;
-    }
+    if (!internetPlan || !tvPlan) return null;
 
     return (
-      getBundleRule(
-        carrier,
-        internetPlan.speed,
-        tvPlan.id,
+      carrierData.bundleRules.find(
+        (rule) =>
+          rule.speed === internetPlan.speed && rule.tvPlanId === tvPlan.id,
       ) ?? null
     );
-  }, [carrier, internetPlan, tvPlan]);
+  }, [carrierData.bundleRules, internetPlan, tvPlan]);
 
   const monthlyBasePrice =
-    bundleRule?.bundleMonthlyPrice ??
-    internetPlan?.monthlyPrice ??
-    0;
-
-  // 원래 적용 가능한 할인 금액
+    bundleRule?.bundleMonthlyPrice ?? internetPlan?.monthlyPrice ?? 0;
   const mobileDiscount =
-    bundleRule?.mobileDiscount ??
-    internetPlan?.mobileDiscount ??
-    0;
-
+    bundleRule?.mobileDiscount ?? internetPlan?.mobileDiscount ?? 0;
   const cardDiscount = carrierData.maxCardDiscount;
-
-  // 사용자가 선택한 실제 적용 할인 금액
-  const appliedMobileDiscount = useMobileDiscount
-    ? mobileDiscount
-    : 0;
-
-  const appliedCardDiscount = useCardDiscount
-    ? cardDiscount
-    : 0;
-
+  const appliedMobileDiscount = useMobileDiscount ? mobileDiscount : 0;
+  const appliedCardDiscount = useCardDiscount ? cardDiscount : 0;
   const estimatedMonthlyPrice = Math.max(
-    monthlyBasePrice -
-      appliedMobileDiscount -
-      appliedCardDiscount,
+    monthlyBasePrice - appliedMobileDiscount - appliedCardDiscount,
     0,
   );
-
-  const reward =
-    bundleRule?.reward ??
-    internetPlan?.reward ??
-    null;
+  const reward = bundleRule?.reward ?? internetPlan?.reward ?? null;
 
   function selectCarrier(nextCarrier: Carrier) {
-    const nextData = internetData[nextCarrier];
+    const nextData = catalog.internetData[nextCarrier];
+    if (!nextData) return;
 
-    const nextInternetPlan =
-      getDefaultInternetPlan(nextData);
-
+    const nextInternetPlan = getDefaultInternetPlan(nextData);
     const nextTvPlan = getDefaultTvPlan(nextData);
 
     setCarrier(nextCarrier);
     setInternetPlanId(nextInternetPlan?.id ?? "");
     setTvPlanId(nextTvPlan?.id ?? null);
-
-    // 통신사를 변경해도 할인 선택 상태는 유지
   }
 
   function selectInternetPlan(plan: InternetPlan) {
@@ -208,56 +180,34 @@ export function CalculatorProvider({
     setUseCardDiscount((current) => !current);
   }
 
-  const value = useMemo<CalculatorContextValue>(
-    () => ({
-      carrier,
-      carrierData,
-
-      internetPlan,
-      tvPlan,
-      bundleRule,
-
-      monthlyBasePrice,
-      mobileDiscount,
-      cardDiscount,
-      appliedMobileDiscount,
-      appliedCardDiscount,
-      estimatedMonthlyPrice,
-      reward,
-
-      useMobileDiscount,
-      useCardDiscount,
-
-      hasProducts:
-        carrierData.internetPlans.length > 0,
-
-      selectCarrier,
-      selectInternetPlan,
-      selectTvPlan,
-      clearTvPlan,
-
-      toggleMobileDiscount,
-      toggleCardDiscount,
-      setUseMobileDiscount,
-      setUseCardDiscount,
-    }),
-    [
-      carrier,
-      carrierData,
-      internetPlan,
-      tvPlan,
-      bundleRule,
-      monthlyBasePrice,
-      mobileDiscount,
-      cardDiscount,
-      appliedMobileDiscount,
-      appliedCardDiscount,
-      estimatedMonthlyPrice,
-      reward,
-      useMobileDiscount,
-      useCardDiscount,
-    ],
-  );
+  const value: CalculatorContextValue = {
+    carrier,
+    carrierData,
+    carrierOrder: catalog.carrierOrder,
+    internetData: catalog.internetData,
+    catalogSource: catalog.source,
+    internetPlan,
+    tvPlan,
+    bundleRule,
+    monthlyBasePrice,
+    mobileDiscount,
+    cardDiscount,
+    appliedMobileDiscount,
+    appliedCardDiscount,
+    estimatedMonthlyPrice,
+    reward,
+    useMobileDiscount,
+    useCardDiscount,
+    hasProducts: carrierData.internetPlans.length > 0,
+    selectCarrier,
+    selectInternetPlan,
+    selectTvPlan,
+    clearTvPlan,
+    toggleMobileDiscount,
+    toggleCardDiscount,
+    setUseMobileDiscount,
+    setUseCardDiscount,
+  };
 
   return (
     <CalculatorContext.Provider value={value}>
@@ -270,9 +220,7 @@ export function useCalculator() {
   const context = useContext(CalculatorContext);
 
   if (!context) {
-    throw new Error(
-      "useCalculator는 CalculatorProvider 내부에서 사용해야 합니다.",
-    );
+    throw new Error("useCalculator는 CalculatorProvider 내부에서 사용해야 합니다.");
   }
 
   return context;

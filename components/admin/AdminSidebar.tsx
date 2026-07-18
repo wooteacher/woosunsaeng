@@ -20,8 +20,18 @@ const allMenus = [
   roles: ["super_admin", "manager", "staff"],
   },
   {
+    href: "/admin/internet",
+    label: "🌐 인터넷 요금",
+    roles: ["super_admin", "manager"],
+  },
+  {
     href: "/admin/products",
-    label: "📦 상품관리",
+    label: "📦 메인 추천상품",
+    roles: ["super_admin", "manager"],
+  },
+  {
+    href: "/admin/rentals",
+    label: "🛋️ 렌탈상품",
     roles: ["super_admin", "manager"],
   },
   {

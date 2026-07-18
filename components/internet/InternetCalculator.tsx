@@ -2,6 +2,7 @@
 
 import CarrierTabs from "@/components/internet/CarrierTabs";
 import FinalEstimate from "@/components/internet/FinalEstimate";
+import InternetBannerSlider from "@/components/internet/InternetBannerSlider";
 import InternetSpeedSelector from "@/components/internet/InternetSpeedSelector";
 import TvPlanSelector from "@/components/internet/TvPlanSelector";
 import { useCalculator } from "@/contexts/CalculatorContext";
@@ -10,60 +11,31 @@ export default function InternetCalculator() {
   const { carrier, selectCarrier } = useCalculator();
 
   return (
-    <section
-      id="internet-calculator"
-      className="bg-slate-50 py-12 sm:py-14 lg:py-16"
-    >
-      <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8">
-        {/* 상단 제목 */}
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-sm font-bold text-emerald-600">
-            우리가 선택한 생활서비스
-          </p>
+    <section id="internet-calculator" className="bg-slate-50 py-4 sm:py-5 lg:py-6">
+      <div className="mx-auto w-full max-w-[1344px] px-4 sm:px-6 lg:px-8">
+        <InternetBannerSlider />
 
-          <h1 className="mt-3 break-keep text-3xl font-black tracking-[-0.045em] text-slate-950 sm:text-4xl lg:text-[42px] lg:leading-[1.2]">
-            인터넷, 어렵게 비교하지 마세요.
-          </h1>
-
-          <p className="mt-4 break-keep text-sm leading-7 text-slate-500 sm:text-base">
-            가장 좋은 조건을 쉽고 정확하게 안내합니다.
-          </p>
-        </div>
-
-        {/* 계산기 */}
-        <div className="mt-8 grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
-          {/* 왼쪽 선택 영역 */}
-          <div className="flex min-w-0 flex-col gap-5">
-            {/* 통신사 선택 */}
-            <div className="rounded-[28px] border border-slate-200 bg-white px-5 py-6 shadow-[0_16px_50px_rgba(15,23,42,0.05)] sm:px-7 lg:px-8 lg:py-7">
-              <CarrierTabs
-                selected={carrier}
-                onChange={selectCarrier}
-              />
+        <div className="mt-4 grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">
+          <div className="flex min-w-0 flex-col gap-6">
+            <div
+              id="internet-selection"
+              className="scroll-mt-24 rounded-[28px] border border-slate-200 bg-white px-5 py-6 shadow-[0_16px_50px_rgba(15,23,42,0.05)] sm:px-7 lg:px-8 lg:py-7"
+            >
+              <CarrierTabs selected={carrier} onChange={selectCarrier} />
             </div>
 
-            {/* 인터넷 속도 + TV */}
             <div className="flex flex-1 flex-col rounded-[28px] border border-slate-200 bg-white px-5 py-6 shadow-[0_16px_50px_rgba(15,23,42,0.05)] sm:px-7 lg:px-8 lg:py-7">
               <InternetSpeedSelector />
 
-              <div className="my-6 h-px bg-slate-200" />
+              <div className="my-7 h-px bg-slate-200" />
 
               <TvPlanSelector />
             </div>
           </div>
 
-          {/* 오른쪽 최종 견적 */}
-          <div className="h-full min-w-0">
+          <div className="min-w-0 xl:sticky xl:top-[84px] xl:h-full xl:self-stretch">
             <FinalEstimate />
           </div>
-        </div>
-
-        {/* 안내 문구 */}
-        <div className="mt-5 rounded-2xl border border-slate-200 bg-white px-5 py-4">
-          <p className="break-keep text-center text-xs leading-6 text-slate-500 sm:text-sm">
-            표시된 금액은 선택 조건에 따른 예상 견적이며, 지역과 결합
-            조건에 따라 실제 금액이 달라질 수 있습니다.
-          </p>
         </div>
       </div>
     </section>
