@@ -135,7 +135,7 @@ export default function InternetBannerSlider() {
         type="button"
         aria-label="이전 광고"
         onClick={() => moveTo(current - 1)}
-        className="absolute left-3 top-1/2 hidden size-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/90 text-slate-800 shadow-lg backdrop-blur transition hover:bg-white sm:flex"
+        className="pointer-events-none absolute left-3 top-1/2 hidden size-9 -translate-x-1 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/90 text-slate-800 opacity-0 shadow-lg backdrop-blur transition duration-200 hover:bg-white group-hover:pointer-events-auto group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-x-0 group-focus-within:opacity-100 sm:flex"
       >
         <ChevronLeft size={21} />
       </button>
@@ -144,7 +144,7 @@ export default function InternetBannerSlider() {
         type="button"
         aria-label="다음 광고"
         onClick={() => moveTo(current + 1)}
-        className="absolute right-3 top-1/2 hidden size-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/90 text-slate-800 shadow-lg backdrop-blur transition hover:bg-white sm:flex"
+        className="pointer-events-none absolute right-3 top-1/2 hidden size-9 translate-x-1 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/90 text-slate-800 opacity-0 shadow-lg backdrop-blur transition duration-200 hover:bg-white group-hover:pointer-events-auto group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-x-0 group-focus-within:opacity-100 sm:flex"
       >
         <ChevronRight size={21} />
       </button>
