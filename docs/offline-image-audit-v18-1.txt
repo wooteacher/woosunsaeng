@@ -1,0 +1,5 @@
+Rental offline repair v18.1
+Image references in product data: 88
+Unique image references: 63
+Missing image files after packaging: 0
+External image downloads required: 0

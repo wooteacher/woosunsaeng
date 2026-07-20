@@ -9,21 +9,21 @@ const slides = [
   {
     id: "rental-search",
     desktop: "/rental/banners/rental-search-desktop.svg",
-    mobile: "/rental/banners/rental-search-mobile.svg",
+    mobile: "/rental/banners/rental-search-mobile-wide-v11.svg",
     alt: "렌탈 상품 검색 안내",
     href: "#rental-search",
   },
   {
     id: "rental-price",
     desktop: "/rental/banners/rental-price-desktop.svg",
-    mobile: "/rental/banners/rental-price-mobile.svg",
+    mobile: "/rental/banners/rental-price-mobile-wide-v11.svg",
     alt: "렌탈 요금과 관리 방식 비교 안내",
     href: "#rental-search",
   },
   {
     id: "rental-compare",
     desktop: "/rental/banners/rental-compare-desktop.svg",
-    mobile: "/rental/banners/rental-compare-mobile.svg",
+    mobile: "/rental/banners/rental-compare-mobile-wide-v11.svg",
     alt: "렌탈 상품 최대 3개 비교 안내",
     href: "#rental-products",
   },
@@ -31,6 +31,18 @@ const slides = [
 
 const AUTO_PLAY_MS = 5000;
 const SWIPE_THRESHOLD = 45;
+
+function getMobileOffset(index: number, current: number) {
+  if (index === current) return 0;
+  if (index === (current + 1) % slides.length) return 1;
+  return -1;
+}
+
+function getMobileTransform(offset: number) {
+  if (offset === 0) return "translate3d(0, 0, 0)";
+  if (offset > 0) return "translate3d(100%, 0, 0)";
+  return "translate3d(-100%, 0, 0)";
+}
 
 export default function RentalBannerSlider() {
   const [current, setCurrent] = useState(0);
@@ -54,7 +66,7 @@ export default function RentalBannerSlider() {
   return (
     <section
       aria-label="렌탈 프로모션"
-      className="group relative overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-[0_16px_50px_rgba(15,23,42,0.06)]"
+      className="group relative sm:overflow-hidden sm:rounded-[24px] sm:border sm:border-slate-200 sm:bg-white sm:shadow-[0_16px_50px_rgba(15,23,42,0.06)]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
@@ -73,32 +85,55 @@ export default function RentalBannerSlider() {
         moveTo(current + (distance < 0 ? 1 : -1));
       }}
     >
-      <div className="relative aspect-[9/7] w-full sm:hidden">
-        {slides.map((slide, index) => (
-          <Link
-            key={`${slide.id}-mobile`}
-            href={slide.href}
-            aria-hidden={current !== index}
-            tabIndex={current === index ? 0 : -1}
-            className={[
-              "absolute inset-0 transition duration-700 ease-out",
-              current === index
-                ? "pointer-events-auto translate-x-0 opacity-100"
-                : index < current
-                  ? "pointer-events-none -translate-x-4 opacity-0"
-                  : "pointer-events-none translate-x-4 opacity-0",
-            ].join(" ")}
-          >
-            <Image
-              src={slide.mobile}
-              alt={slide.alt}
-              fill
-              priority={index === 0}
-              sizes="100vw"
-              className="object-contain"
+      <div className="sm:hidden">
+        <div className="relative aspect-[9/4] w-full overflow-hidden rounded-[16px] touch-pan-y">
+          {slides.map((slide, index) => {
+            const offset = getMobileOffset(index, current);
+
+            return (
+              <Link
+                key={`${slide.id}-mobile`}
+                href={slide.href}
+                aria-hidden={current !== index}
+                tabIndex={current === index ? 0 : -1}
+                className="absolute left-0 top-0 h-full overflow-hidden rounded-[16px] border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)] transition-transform duration-500 ease-out"
+                style={{
+                  width: "100%",
+                  transform: getMobileTransform(offset),
+                  zIndex: offset === 0 ? 2 : 1,
+                  pointerEvents: offset === 0 ? "auto" : "none",
+                }}
+              >
+                <Image
+                  src={slide.mobile}
+                  alt={slide.alt}
+                  width={900}
+                  height={400}
+                  priority={index === 0}
+                  sizes="calc(100vw - 32px)"
+                  className="block h-full w-full object-cover object-center"
+                  unoptimized
+                />
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="mt-1.5 flex items-center justify-center gap-1.5" aria-label="광고 슬라이드 선택">
+          {slides.map((slide, index) => (
+            <button
+              key={slide.id}
+              type="button"
+              aria-label={`${index + 1}번째 광고 보기`}
+              aria-current={current === index}
+              onClick={() => moveTo(index)}
+              className={[
+                "h-1.5 rounded-full transition-all",
+                current === index ? "w-5 bg-emerald-600" : "w-1.5 bg-slate-300",
+              ].join(" ")}
             />
-          </Link>
-        ))}
+          ))}
+        </div>
       </div>
 
       <div className="relative hidden aspect-[40/7] w-full sm:block">
@@ -147,7 +182,7 @@ export default function RentalBannerSlider() {
         <ChevronRight size={21} />
       </button>
 
-      <div className="absolute bottom-2.5 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-white/60 bg-slate-950/55 px-3 py-2 backdrop-blur-md">
+      <div className="absolute bottom-2.5 left-1/2 hidden -translate-x-1/2 items-center gap-1.5 rounded-full border border-white/60 bg-slate-950/55 px-3 py-2 backdrop-blur-md sm:flex">
         {slides.map((slide, index) => (
           <button
             key={slide.id}

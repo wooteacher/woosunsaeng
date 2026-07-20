@@ -1,0 +1,39 @@
+Rental image audit v16
+
+Registered image references: 80
+Missing local files: 29
+Remote image URLs: 1
+
+Missing local image files:
+/rental/products/lg-wd523vct.webp
+/rental/products/lg-wd323acb.webp
+/rental/products/coway-chp-5730l.webp
+/rental/products/coway-chpi-5810l.webp
+/rental/products/sk-wpupbc204s.webp
+/rental/products/cuckoo-cp-aas100ulw.webp
+/rental/products/cesco-ewbd151.webp
+/rental/products/cesco-ewbd351.webp
+/rental/products/ruhens-whp-2000.webp
+/rental/products/hyundai-p-a52s.webp
+/rental/products/chungho-new-icetree.webp
+/rental/products/chungho-esprescafe.webp
+/rental/products/samsung-bespoke-water.webp
+/rental/products/coway-chp-7211n.webp
+/rental/products/sk-wpu-iac414s.webp
+/rental/products/coway-icon-ice.webp
+/rental/products/sk-onecock-ice.webp
+/rental/products/lg-as305dwwam.webp
+/rental/products/lg-aerotower.webp
+/rental/products/samsung-cube-air-infinite.webp
+/rental/products/sk-allclean-25.webp
+/rental/products/cuckoo-ultra-air.webp
+/rental/products/coway-bas47-ar.webp
+/rental/products/coway-bas51-a.webp
+/rental/products/sk-bid-s17d.webp
+/rental/products/cuckoo-cbt-qsb1041w.webp
+/rental/products/ruhens-whb-5400.webp
+/rental/products/nouhaus-nr-sn100n.webp
+/rental/products/bodyfriend-palcon.webp
+
+Remote image URLs:
+https://images.samsung.com/kdp/goods/2025/07/17/8a565e08-2943-4a9f-bac0-ced14dbd5335.png

@@ -331,21 +331,21 @@ export default function FinalEstimate() {
             </section>
 
             <div className="mt-auto grid grid-cols-2 gap-2 pt-3">
-              <button
-                type="button"
-                onClick={() => setConsultationOpen(true)}
-                className="flex h-10 items-center justify-center gap-1.5 rounded-[13px] bg-emerald-500 px-3 text-[12px] font-bold transition hover:bg-emerald-400"
-              >
-                <PhoneCall size={15} strokeWidth={2.2} />
-                상담 연결
-              </button>
               <a
                 href={applyUrl}
-                className="flex h-10 items-center justify-center gap-1.5 rounded-[13px] border border-white/[0.11] bg-white/[0.055] px-3 text-[12px] font-bold transition hover:bg-white/[0.09]"
+                className="flex h-10 items-center justify-center gap-1.5 rounded-[13px] border border-white/[0.11] bg-white/[0.055] px-3 font-sans text-[12px] font-bold leading-none tracking-[-0.01em] text-white transition hover:bg-white/[0.09]"
               >
                 <FilePenLine size={15} strokeWidth={2.2} />
                 가입 신청
               </a>
+              <button
+                type="button"
+                onClick={() => setConsultationOpen(true)}
+                className="flex h-10 items-center justify-center gap-1.5 rounded-[13px] bg-emerald-500 px-3 font-sans text-[12px] font-bold leading-none tracking-[-0.01em] text-white transition hover:bg-emerald-400"
+              >
+                <PhoneCall size={15} strokeWidth={2.2} />
+                상담 연결
+              </button>
             </div>
           </div>
 

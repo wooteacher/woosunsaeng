@@ -1,0 +1,28 @@
+v17 product references
+
+Category discovery
+- AJD TV rental overview:
+  https://www.ajd.co.kr/electronics/overview/0-2058/total
+- VIP-rental category structure:
+  https://allsale.vip-rental.com/categ/1217/1571
+
+Official product verification
+- LG OLED55C6KNA:
+  https://www.lge.co.kr/tvs/oled55c6kna-stand
+- LG OLED83C5KNA:
+  https://www.lge.co.kr/care-solutions/tvs/oled83c5kna-wall
+- LG STEM refrigerator category:
+  https://www.lge.co.kr/care-solutions/refrigerators?subCateId=CT50271000
+- LG FQ18GV6EK2:
+  https://www.lge.co.kr/care-solutions/air-conditioners/fq18gv6ek2
+- LG wall-mounted air-conditioner category:
+  https://www.lge.co.kr/business/care-solutions/air-conditioners?subCateId=CT50129004
+- LG Y324GB7:
+  https://www.lge.co.kr/care-solutions/refrigerators/y324gb7
+- LG Y324GQ7S:
+  https://www.lge.co.kr/care-solutions/refrigerators/y324gq7s
+
+Notes
+- Product names and key specifications were verified from current official pages.
+- Local SVG catalog artwork is used so the site never shows a broken image.
+- Exact rental conditions can change; null prices remain labeled as consultation confirmation.

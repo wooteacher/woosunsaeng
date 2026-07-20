@@ -1,0 +1,26 @@
+Rental catalog v17 audit
+
+Total products: 88
+Products with image field: 88
+Existing product-photo refs: 50
+Local fallback refs: 30
+New local catalog refs: 8
+Remote image refs: 0
+
+Added categories:
+TV
+냉장고
+에어컨
+냉동고
+
+Added verified models:
+OLED55C6KNA
+OLED83C5KNA
+G646GBB091
+G646SVV091
+FQ18GV6EK2
+SQ07GS9EES
+Y324GB7
+Y324GQ7S
+
+Replaced missing or remote image paths with local fallback assets: 30

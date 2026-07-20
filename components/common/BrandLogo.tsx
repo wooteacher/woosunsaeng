@@ -16,7 +16,7 @@ export default function BrandLogo({
       aria-label="우선생 홈으로 이동"
       className={`inline-flex shrink-0 items-center gap-2 ${className}`}
     >
-      <span className="relative block h-[25px] w-[70px] shrink-0 sm:h-[28px] sm:w-[79px]">
+      <span className="relative block h-[25px] w-[70px] shrink-0 translate-y-[2px] sm:h-[28px] sm:w-[79px]">
         <Image
           src="/images/logo/woosunsaeng-logo.svg"
           alt=""
@@ -27,7 +27,7 @@ export default function BrandLogo({
         />
       </span>
 
-      <span className="whitespace-nowrap text-[21px] font-black leading-none tracking-[-0.05em] text-green-700 sm:text-[23px]">
+      <span className="whitespace-nowrap text-[21px] font-black leading-none tracking-[-0.05em] text-[#207D08] sm:text-[23px]">
         우선생
       </span>
     </Link>

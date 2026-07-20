@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  Ban,
-  Clapperboard,
-  Film,
-  MonitorPlay,
-  Tv,
-} from "lucide-react";
+import { Ban, Clapperboard, Film, MonitorPlay, Tv } from "lucide-react";
 
+import MobileHorizontalRail from "@/components/internet/MobileHorizontalRail";
 import SelectionCard from "@/components/internet/SelectionCard";
 import { useCalculator } from "@/contexts/CalculatorContext";
 
@@ -16,33 +11,19 @@ function formatPrice(price: number) {
 }
 
 function getChannelCount(plan: unknown) {
-  if (!plan || typeof plan !== "object") {
-    return null;
-  }
+  if (!plan || typeof plan !== "object") return null;
 
   const data = plan as Record<string, unknown>;
+  const value = data.channelCount ?? data.channels ?? data.channel;
 
-  const value =
-    data.channelCount ??
-    data.channels ??
-    data.channel;
-
-  if (typeof value === "number") {
-    return value;
-  }
+  if (typeof value === "number") return value;
 
   if (typeof value === "string") {
     const parsed = Number(value.replace(/[^0-9]/g, ""));
-
-    if (!Number.isNaN(parsed) && parsed > 0) {
-      return parsed;
-    }
+    if (!Number.isNaN(parsed) && parsed > 0) return parsed;
   }
 
-  const name =
-    typeof data.name === "string"
-      ? data.name.replace(/\s/g, "")
-      : "";
+  const name = typeof data.name === "string" ? data.name.replace(/\s/g, "") : "";
 
   if (name.includes("디즈니+모든G")) return 250;
   if (name.includes("모든G")) return 250;
@@ -104,68 +85,77 @@ function getPlanContent(name: string) {
 }
 
 export default function TvPlanSelector() {
-  const {
-    carrierData,
-    tvPlan,
-    selectTvPlan,
-    clearTvPlan,
-  } = useCalculator();
+  const { carrier, carrierData, tvPlan, selectTvPlan, clearTvPlan } =
+    useCalculator();
 
   return (
-    <section className="grid gap-5 xl:grid-cols-[180px_minmax(0,1fr)] xl:items-start">
-      <div>
-        <h2 className="break-keep text-[22px] font-black tracking-[-0.04em] text-slate-950">
-          TV 채널
-        </h2>
-
-        <p className="mt-2 break-keep text-sm leading-6 text-slate-500">
-          원하는 채널 구성을 선택해주세요.
-        </p>
+    <section className="grid gap-2.5 xl:grid-cols-[180px_minmax(0,1fr)] xl:items-start xl:gap-5">
+      <div className="flex items-start gap-2.5 xl:block">
+        <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-[11px] font-black text-white xl:hidden">
+          3
+        </span>
+        <div>
+          <h2 className="break-keep text-[18px] font-black tracking-[-0.04em] text-slate-950 sm:text-[22px]">
+            TV 채널
+          </h2>
+          <p className="mt-0.5 break-keep text-[12px] leading-5 text-slate-500 sm:mt-2 sm:text-sm sm:leading-6">
+            원하는 채널 구성을 선택해주세요.
+          </p>
+        </div>
       </div>
 
-      <div className="grid min-w-0 grid-cols-1 gap-2.5 sm:grid-cols-2 xl:grid-flow-col xl:auto-cols-fr xl:grid-rows-1">
-        <SelectionCard
-          title="선택 안함"
-          subtitle="인터넷만"
-          description="TV 없이 이용"
-          infoLabel="인터넷 단독"
-          priceLabel="월 0원"
-          selected={!tvPlan}
-          onClick={clearTvPlan}
-          icon={<Ban size={17} strokeWidth={2.2} />}
-          className="min-h-[196px] min-w-0 p-4"
-        />
+      <MobileHorizontalRail
+        ariaLabel="TV 채널"
+        resetKey={carrier}
+        scrollClassName="flex min-w-0 snap-x snap-mandatory gap-2 overflow-x-auto px-0.5 py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:py-0"
+      >
+        <div
+          data-rail-item
+          style={{ flexBasis: "calc((100% - 8px) / 2.18)" }}
+          className="min-w-0 shrink-0 snap-start sm:w-auto"
+        >
+          <SelectionCard
+            title="선택 안함"
+            subtitle="인터넷만"
+            description="TV 없이 이용"
+            infoLabel="인터넷 단독"
+            priceLabel="월 0원"
+            selected={!tvPlan}
+            onClick={clearTvPlan}
+            icon={<Ban size={17} strokeWidth={2.2} />}
+            className="!h-[132px] !w-full sm:!h-[196px]"
+          />
+        </div>
 
         {carrierData.tvPlans.map((plan) => {
           const channelCount = getChannelCount(plan);
           const content = getPlanContent(plan.name);
           const normalizedName = plan.name.replace(/\s/g, "");
+          const active = tvPlan?.id === plan.id;
 
           return (
-            <SelectionCard
+            <div
               key={plan.id}
-              title={plan.name}
-              subtitle={
-                channelCount
-                  ? `${channelCount}채널`
-                  : "채널 상품"
-              }
-              description={content.description}
-              infoLabel={content.infoLabel}
-              priceLabel={`월 ${formatPrice(plan.monthlyPrice)}원`}
-              badge={
-                normalizedName.includes("베이직")
-                  ? "추천"
-                  : undefined
-              }
-              selected={tvPlan?.id === plan.id}
-              onClick={() => selectTvPlan(plan)}
-              icon={content.icon}
-              className="min-h-[196px] min-w-0 p-4"
-            />
+              data-rail-item
+              style={{ flexBasis: "calc((100% - 8px) / 2.18)" }}
+              className="min-w-0 shrink-0 snap-start sm:w-auto"
+            >
+              <SelectionCard
+                title={plan.name}
+                subtitle={channelCount ? `${channelCount}채널` : "채널 상품"}
+                description={content.description}
+                infoLabel={content.infoLabel}
+                priceLabel={`월 ${formatPrice(plan.monthlyPrice)}원`}
+                badge={normalizedName.includes("베이직") ? "추천" : undefined}
+                selected={active}
+                onClick={() => selectTvPlan(plan)}
+                icon={content.icon}
+                className="!h-[132px] !w-full sm:!h-[196px]"
+              />
+            </div>
           );
         })}
-      </div>
+      </MobileHorizontalRail>
     </section>
   );
 }

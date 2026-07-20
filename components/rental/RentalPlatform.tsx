@@ -17,6 +17,10 @@ import {
   Loader2,
   MessageCircleMore,
   PackageOpen,
+  Refrigerator,
+  Snowflake,
+  Tv,
+  Wind,
   Search,
   Send,
   Sparkles,
@@ -42,6 +46,7 @@ import {
 } from "@/data/rental/products";
 import { supabase } from "@/lib/supabase";
 import RentalBannerSlider from "@/components/rental/RentalBannerSlider";
+import RentalQuickCategories from "@/components/rental/RentalQuickCategories";
 import { fetchRentalProducts } from "@/services/rental-products.service";
 
 type ManagementFilter =
@@ -71,6 +76,10 @@ const categoryMeta: Record<RentalCategory, CategoryMeta> = {
   "세탁·건조": { icon: WashingMachine, short: "세탁·건조" },
   주방가전: { icon: CookingPot, short: "주방가전" },
   생활가전: { icon: PackageOpen, short: "생활가전" },
+  TV: { icon: Tv, short: "TV" },
+  "\uB0C9\uC7A5\uACE0": { icon: Refrigerator, short: "\uB0C9\uC7A5\uACE0" },
+  "\uC5D0\uC5B4\uCEE8": { icon: Wind, short: "\uC5D0\uC5B4\uCEE8" },
+  "\uB0C9\uB3D9\uACE0": { icon: Snowflake, short: "\uB0C9\uB3D9\uACE0" },
 };
 
 const sortOptions: RentalSort[] = ["추천순", "낮은가격순", "높은가격순"];
@@ -101,20 +110,36 @@ const formatPrice = (price: number | null) =>
   price === null ? "상담 확인" : `${price.toLocaleString("ko-KR")}원`;
 
 function effectiveCardDiscount(product: RentalProduct) {
-  if (product.monthlyPrice === null || product.maxCardDiscount === null) {
-    return product.maxCardDiscount;
+  const price = product.monthlyPrice;
+  const discount = product.maxCardDiscount;
+
+  if (
+    price === null ||
+    price <= 0 ||
+    discount === null ||
+    discount <= 0 ||
+    discount >= price
+  ) {
+    return null;
   }
 
-  return Math.min(product.monthlyPrice, product.maxCardDiscount);
+  return discount;
 }
 
 function calculatedFinalPrice(product: RentalProduct) {
-  if (product.finalPrice !== null) return product.finalPrice;
-  if (product.monthlyPrice === null) return null;
+  const price = product.monthlyPrice;
+  if (price === null || price <= 0) return null;
+
+  if (
+    product.finalPrice !== null &&
+    product.finalPrice > 0 &&
+    product.finalPrice <= price
+  ) {
+    return product.finalPrice;
+  }
 
   const discount = effectiveCardDiscount(product);
-  if (discount === null) return null;
-  return Math.max(product.monthlyPrice - discount, 0);
+  return discount === null ? price : price - discount;
 }
 
 function managementMatches(
@@ -194,44 +219,49 @@ function ProductImage({
 function PriceSummary({ product }: { product: RentalProduct }) {
   const discount = effectiveCardDiscount(product);
   const finalPrice = calculatedFinalPrice(product);
+  const hasDiscount =
+    product.monthlyPrice !== null &&
+    discount !== null &&
+    finalPrice !== null &&
+    finalPrice < product.monthlyPrice;
 
   return (
     <div className="mt-5 border-t border-slate-100 pt-4">
       <div className="flex items-center justify-between gap-3">
-        <span className="text-xs font-bold text-slate-500">월 렌탈료</span>
+        <span className="text-xs font-bold text-slate-500">월 기본 렌탈료</span>
         <strong className="tabular-nums text-[15px] font-extrabold text-slate-950">
           {formatPrice(product.monthlyPrice)}
         </strong>
       </div>
 
-      <div className="mt-2 flex items-center justify-between gap-3">
-        <span className="text-xs font-bold text-slate-500">
-          제휴카드 최대 할인
-        </span>
-        <strong className="tabular-nums text-[14px] font-extrabold text-emerald-600">
-          {discount === null ? "조건 확인" : `-${discount.toLocaleString("ko-KR")}원`}
-        </strong>
-      </div>
+      {hasDiscount ? (
+        <div className="mt-2 flex items-center justify-between gap-3">
+          <span className="text-xs font-bold text-slate-500">
+            제휴카드 최대 할인
+          </span>
+          <strong className="tabular-nums text-[14px] font-extrabold text-emerald-600">
+            -{discount.toLocaleString("ko-KR")}원
+          </strong>
+        </div>
+      ) : (
+        <p className="mt-2 text-right text-[11px] font-semibold text-slate-400">
+          할인 전 기본요금 기준
+        </p>
+      )}
 
       <div className="mt-4 rounded-2xl bg-slate-950 px-4 py-3.5 text-white">
         <div className="flex items-end justify-between gap-3">
           <span className="pb-0.5 text-[11px] font-bold text-slate-400">
-            카드 할인 적용 시
+            {hasDiscount ? "카드 할인 적용 시 예상" : "월 예상 렌탈료"}
           </span>
-          {finalPrice === null ? (
-            <strong className="text-sm font-extrabold text-emerald-300">
-              상담 확인
+          <p className="whitespace-nowrap">
+            <strong className="tabular-nums text-[24px] font-extrabold tracking-[-0.05em] text-emerald-400">
+              {(finalPrice ?? product.monthlyPrice ?? 0).toLocaleString("ko-KR")}
             </strong>
-          ) : (
-            <p className="whitespace-nowrap">
-              <strong className="tabular-nums text-[24px] font-extrabold tracking-[-0.05em] text-emerald-400">
-                {finalPrice.toLocaleString("ko-KR")}
-              </strong>
-              <span className="ml-1 text-xs font-bold text-emerald-400">
-                원/월
-              </span>
-            </p>
-          )}
+            <span className="ml-1 text-xs font-bold text-emerald-400">
+              원/월
+            </span>
+          </p>
         </div>
       </div>
     </div>
@@ -874,9 +904,9 @@ export default function RentalPlatform() {
   function resetFilters() {
     setCategory("전체");
     setBrand("전체");
-    setPurpose("전체");
-    setManagement("전체");
-    setPrice("전체");
+    setPurpose("\uC804\uCCB4");
+    setManagement("\uC804\uCCB4");
+    setPrice("\uC804\uCCB4");
     setQuery("");
     setSort("추천순");
   }
@@ -902,6 +932,20 @@ export default function RentalPlatform() {
       <section className="bg-slate-50 py-4 sm:py-5 lg:py-6">
         <div className="mx-auto w-full max-w-[1344px] px-4 sm:px-6 lg:px-8">
           <RentalBannerSlider />
+
+          <RentalQuickCategories
+            selected={category}
+            onSelect={(nextCategory) => {
+              changeCategory(nextCategory);
+              setQuery("");
+
+              window.requestAnimationFrame(() => {
+                document
+                  .getElementById("rental-products")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
+              });
+            }}
+          />
 
           <div
             id="rental-search"
@@ -930,128 +974,15 @@ export default function RentalPlatform() {
                   </button>
                 )}
               </div>
-
-              <div className="flex shrink-0 items-center justify-between gap-3 rounded-[16px] bg-emerald-50 px-4 py-3 lg:min-w-[250px]">
-                <div>
-                  <p className="text-[11px] font-extrabold text-emerald-700">
-                    렌탈 상품 검색
-                  </p>
-                  <p className="mt-0.5 text-sm font-extrabold text-slate-950">
-                    검색 결과 {products.length}개
-                  </p>
-                </div>
-                <span className="rounded-full bg-white px-3 py-1.5 text-[11px] font-extrabold text-slate-600 shadow-sm">
-                  전체 {allProducts.length || 80}개
-                </span>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       <section id="rental-products" className="mx-auto max-w-[1344px] px-4 pb-10 pt-2 sm:px-6 sm:pb-12 lg:px-8">
-        <div className="flex gap-2 overflow-x-auto pb-2">
-          {rentalCategories.map((item) => {
-            const Icon = categoryMeta[item].icon;
-            const active = category === item;
-
-            return (
-              <button
-                key={item}
-                type="button"
-                onClick={() => changeCategory(item)}
-                className={[
-                  "flex h-12 shrink-0 items-center gap-2 rounded-2xl border px-4 text-sm font-extrabold transition",
-                  active
-                    ? "border-emerald-600 bg-emerald-600 text-white shadow-[0_10px_24px_rgba(5,150,105,0.18)]"
-                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300",
-                ].join(" ")}
-              >
-                <Icon size={17} />
-                {categoryMeta[item].short}
-                <span
-                  className={[
-                    "rounded-full px-2 py-0.5 text-[10px]",
-                    active ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500",
-                  ].join(" ")}
-                >
-                  {categoryCounts.get(item) ?? 0}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="mt-5 rounded-[24px] border border-slate-200 bg-white p-4 shadow-[0_8px_28px_rgba(15,23,42,0.035)] sm:p-5">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_auto] lg:items-end">
-            <FilterSelect
-              label="브랜드"
-              value={brand}
-              options={brands}
-              onChange={setBrand}
-            />
-            <FilterSelect
-              label="사용 목적"
-              value={purpose}
-              options={purposeOptions}
-              onChange={(value) => setPurpose(value as RentalPurpose)}
-            />
-            <FilterSelect
-              label="관리 방식"
-              value={management}
-              options={managementOptions}
-              onChange={(value) => setManagement(value as ManagementFilter)}
-            />
-            <FilterSelect
-              label="월 렌탈료"
-              value={price}
-              options={priceOptions}
-              onChange={(value) => setPrice(value as PriceFilter)}
-            />
-            <button
-              type="button"
-              onClick={resetFilters}
-              className="h-11 rounded-xl border border-slate-200 px-4 text-sm font-extrabold text-slate-600 transition hover:bg-slate-50"
-            >
-              초기화
-            </button>
-          </div>
-        </div>
-
-        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm font-bold text-slate-500">
-              조건에 맞는 상품
-              <strong className="ml-1 text-slate-950">{products.length}개</strong>
-            </p>
-            <p className="mt-1 text-xs font-medium text-slate-400">
-              실제 요금과 프로모션은 상담 시점과 선택 옵션에 따라 달라질 수 있습니다.
-            </p>
-          </div>
-
-          <div className="relative w-full sm:w-[180px]">
-            <ArrowDownUp
-              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-              size={16}
-            />
-            <select
-              value={sort}
-              onChange={(event) => setSort(event.target.value as RentalSort)}
-              className="h-11 w-full appearance-none rounded-2xl border border-slate-200 bg-white pl-11 pr-10 text-sm font-extrabold text-slate-700 outline-none"
-            >
-              {sortOptions.map((option) => (
-                <option key={option}>{option}</option>
-              ))}
-            </select>
-            <ChevronDown
-              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
-              size={16}
-            />
-          </div>
-        </div>
 
         {loading ? (
-          <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          <div className="mt-3 grid gap-5 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
             {Array.from({ length: 6 }).map((_, index) => (
               <div
                 key={index}
@@ -1067,7 +998,7 @@ export default function RentalPlatform() {
             ))}
           </div>
         ) : (
-          <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          <div className="mt-3 grid gap-5 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
             {products.map((product) => (
               <ProductCard
                 key={product.id}

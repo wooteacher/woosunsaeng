@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" rx="56" fill="#F8FAFC"/>
+  <circle cx="1040" cy="110" r="180" fill="#16A34A" opacity=".08"/>
+  <rect x="80" y="68" width="1040" height="764" rx="42" fill="#FFFFFF"/>
+  <text x="96" y="132" fill="#0F172A" font-family="Arial,'Noto Sans KR',sans-serif" font-size="36" font-weight="800">안마의자</text>
+  <text x="96" y="178" fill="#64748B" font-family="Arial,'Noto Sans KR',sans-serif" font-size="22" font-weight="600"></text>
+  <g transform="translate(380 190)"><path d="M120 36c96-58 220 12 228 130l16 230c4 72-50 132-122 132H126C60 528 8 474 12 408l14-236C30 110 62 70 120 36Z" fill="#F8FAFC" stroke="#DDE7E2" stroke-width="9"/><path d="M112 112c74-38 156 12 162 92l10 118c4 46-32 84-78 84h-64c-46 0-82-38-78-84l10-118c4-42 18-72 38-92Z" fill="#ECFDF5"/><path d="M88 430l-46 92M286 430l46 92" stroke="#94A3B8" stroke-width="18" stroke-linecap="round"/><circle cx="174" cy="250" r="54" fill="#16A34A" opacity=".16"/></g>  <rect x="96" y="770" width="220" height="18" rx="9" fill="#16A34A" opacity=".85"/>
+</svg>

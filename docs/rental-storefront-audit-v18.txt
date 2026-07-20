@@ -1,0 +1,55 @@
+Rental storefront v18 audit
+Ready products: 49
+Bundled existing product photos: 32
+Downloaded official/source photos: 17
+
+Ready product IDs:
+ceragem-master-v7
+cesco-ewbd151
+cesco-ewbd351
+chungho-bidet
+coway-ap-1019d
+coway-ap-1023f
+coway-ap-1125g
+coway-ap-1225f
+coway-ap-1523d
+coway-ap-1526a
+coway-ap-1623m
+coway-ap-2026b
+coway-ap-2425h
+coway-ap-3021d
+coway-ap-3024h
+coway-ap-3519a
+coway-ap-3522f
+coway-ap-3525i
+coway-ap-4025d
+coway-apd-1023a
+coway-apd-1025e
+coway-aph-0525f
+coway-apm-1226h
+coway-apms-1020a
+coway-chp-5730l
+coway-chpi-5810l
+coway-noble-aircare2
+cozyma-newera
+cuckoo-cms-g210nw
+cuckoo-cms-h410ww
+cuckoo-cms-j410bk
+cuckoo-cp-aas100ulw
+cuckoo-pet-dryroom
+cuckoo-restino
+hyundai-p-a52s
+hyundai-smart-bidet
+lg-dishwasher
+lg-fq18gv6ek2
+lg-g646gbb091
+lg-g646svv091
+lg-oled55c6kna
+lg-oled83c5kna
+lg-sq07gs9ees
+lg-washtower
+lg-y324gb7
+lg-y324gq7s
+ruhens-whp-2000
+sk-bubble-bidet
+sk-wpupbc204s
